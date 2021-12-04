@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "image": "/assets/images/hero-slider/hero-slider-one/shoes.jpg",
+    "subtitle": "Dondead",
+    "title": "DANK, <br> Sell and Buy",
+    "url": "/shop"
+  },
+  {
+    "id": "2",
+    "image": "/assets/images/hero-slider/hero-slider-one/job.png",
+    "subtitle": "Dondead",
+    "title": "YEEZY, <br> Sell and Buy",
+    "url": "/shop"
+  },
+  {
+    "id": "3",
+    "image": "/assets/images/hero-slider/hero-slider-one/shoes3.jpg",
+    "subtitle": "Dondead",
+    "title": "JORDAN, <br> Sell and Buy",
+    "url": "/shop"
+  }
+]
