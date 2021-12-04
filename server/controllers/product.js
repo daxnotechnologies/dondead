@@ -11,7 +11,7 @@ export const getProductList = async (req, res) => {
 };
 
 export const addNewProduct = async (req, res) => {
-  if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
+  // if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
   const prod = req.body;
 
   try {

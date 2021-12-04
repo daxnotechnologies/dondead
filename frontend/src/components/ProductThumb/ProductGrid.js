@@ -156,7 +156,7 @@ const ProductGrid = ({
                 </Link>
               </h3>
               {/* add to cart */}
-              {product.affiliateLink ? (
+              {/* {product.affiliateLink ? (
                 <a href={product.affiliateLink} target="_blank">
                   Buy now
                 </a>
@@ -183,7 +183,7 @@ const ProductGrid = ({
                 </button>
               ) : (
                 <button disabled>Out of Stock</button>
-              )}
+              )} */}
             </div>
             <div className="price">
               {product.discount > 0 ? (

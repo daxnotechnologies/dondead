@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Rate } from 'antd';
 import FeatherIcon from 'feather-icons-react';
@@ -10,6 +10,9 @@ import { updateWishList } from '../../../../redux/product/actionCreator';
 import { Button } from '../../../../components/buttons/buttons';
 
 const DetailsRight = ({ product }) => {
+  const [price, setPrice] = useState(product?.size[0].price);
+
+  console.log(product);
   const dispatch = useDispatch();
   const [state, setState] = useState({
     quantity: 1,
@@ -44,12 +47,12 @@ const DetailsRight = ({ product }) => {
       <span className="pdbr__rating">{rate}</span>
       <span className="pdbr__review-count"> 778 Reviews</span> */}
       <p>
-        <span className="pdbr__brand-text">Category :</span>
-        <span className="pdbr__brand-name">{product?.category}</span>
+        <span className="pdbr__brand-text">Category: </span>
+        <span className="pdbr__brand-name"> {product?.category}</span>
       </p>
       <Heading className="pdbr__new-price" as="h3">
         <span className="pdbr__currency">$</span>
-        <span className="pdbr__price">{product?.price}</span>
+        <span className="pdbr__price">{price}</span>
       </Heading>
       {/* {oldPrice && (
         <Heading className="pdbr__old-price" as="h6">
@@ -57,6 +60,29 @@ const DetailsRight = ({ product }) => {
         </Heading>
       )} */}
       <p className="pdbr__desc">{product?.description}</p>
+      <div className="pdbr__current-status">
+        <p className="pdbr__quantity">
+          <span className="current-status-title">Sizes:</span>
+        </p>
+        <p className="pdbr__quantity">
+          {product?.size.map(({ size, price }) => (
+            <Button
+              className="btn-buy"
+              style={{
+                backgroundColor: 'black',
+                color: 'white',
+                fontSize: '20px',
+                padding: '30px',
+                marginRight: '10px',
+              }}
+              onClick={() => setPrice(price)}
+              type="default"
+            >
+              {size}
+            </Button>
+          ))}
+        </p>
+      </div>
       {/* <div className="pdbr__current-status">
         <p>
           <span className="current-status-title">Available:</span>

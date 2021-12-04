@@ -18,6 +18,7 @@ const ProductDescription = ({
   deleteFromWishlist,
   addToCompare,
   deleteFromCompare,
+  setProductPrice,
 }) => {
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
@@ -136,7 +137,7 @@ const ProductDescription = ({
       ) : (
         ""
       )}
-      {product.affiliateLink ? (
+      {/* {product.affiliateLink ? (
         <div className="product-content__quality">
           <div className="product-content__cart btn-hover">
             <a
@@ -149,179 +150,184 @@ const ProductDescription = ({
             </a>
           </div>
         </div>
-      ) : (
-        <Fragment>
-          <div className="product-content__quantity space-mb--40">
-            <div className="product-content__quantity__title">Quantity</div>
-            <div className="cart-plus-minus">
-              <button
-                onClick={() =>
-                  setQuantityCount(quantityCount > 1 ? quantityCount - 1 : 1)
-                }
-                className="qtybutton"
-              >
-                -
-              </button>
-              <input
-                className="cart-plus-minus-box"
-                type="text"
-                value={quantityCount}
-                readOnly
-              />
-              <button
-                onClick={() =>
-                  setQuantityCount(
-                    quantityCount < productStock - productCartQty
-                      ? quantityCount + 1
-                      : quantityCount
-                  )
-                }
-                className="qtybutton"
-              >
-                +
-              </button>
-            </div>
-          </div>
-
-          <div className="product-content__button-wrapper d-flex align-items-center">
-            {/* {productStock && productStock > 0 ? ( */}
+      ) : ( */}
+      <Fragment>
+        <div className="product-content__quantity space-mb--40">
+          {product.size.map(({ size, price }) => (
             <button
-              onClick={() =>
-                addToCart(
-                  product,
-                  addToast,
-                  quantityCount,
-                  selectedProductColor,
-                  selectedProductSize
-                )
-              }
-              // disabled={productCartQty >= productStock}
+              onClick={() => setProductPrice(price)}
               className="lezada-button lezada-button--medium product-content__cart space-mr--10"
             >
-              Add To Offer
+              {size}
             </button>
-            {/* ) : (
+          ))}
+
+          {/* <div className="product-content__quantity__title">Quantity</div>
+          <div className="cart-plus-minus">
+            <button
+              onClick={() =>
+                setQuantityCount(quantityCount > 1 ? quantityCount - 1 : 1)
+              }
+              className="qtybutton"
+            >
+              -
+            </button>
+            <input
+              className="cart-plus-minus-box"
+              type="text"
+              value={quantityCount}
+              readOnly
+            />
+            <button
+              onClick={() =>
+                setQuantityCount(
+                  quantityCount < productStock - productCartQty
+                    ? quantityCount + 1
+                    : quantityCount
+                )
+              }
+              className="qtybutton"
+            >
+              +
+            </button>
+          </div> */}
+        </div>
+
+        <div className="product-content__button-wrapper d-flex align-items-center">
+          {/* {productStock && productStock > 0 ? ( */}
+          <button
+            onClick={() =>
+              addToCart(
+                product,
+                addToast,
+                quantityCount,
+                selectedProductColor,
+                selectedProductSize
+              )
+            }
+            // disabled={productCartQty >= productStock}
+            className="lezada-button lezada-button--medium product-content__cart space-mr--10"
+          >
+            Add To Offer
+          </button>
+          {/* ) : (
               <button
                 className="lezada-button lezada-button--medium product-content__ofs space-mr--10"
                 disabled
               >
                 Out of Stock
               </button> */}
-            {/* )} */}
+          {/* )} */}
 
-            <button
-              className={`product-content__wishlist space-mr--10 ${
-                wishlistItem !== undefined ? "active" : ""
-              }`}
-              title={
-                wishlistItem !== undefined
-                  ? "Added to wishlist"
-                  : "Add to wishlist"
-              }
-              onClick={
-                wishlistItem !== undefined
-                  ? () => deleteFromWishlist(product, addToast)
-                  : () => addToWishlist(product, addToast)
-              }
-            >
-              <IoIosHeartEmpty />
-            </button>
+          <button
+            className={`product-content__wishlist space-mr--10 ${
+              wishlistItem !== undefined ? "active" : ""
+            }`}
+            title={
+              wishlistItem !== undefined
+                ? "Added to wishlist"
+                : "Add to wishlist"
+            }
+            onClick={
+              wishlistItem !== undefined
+                ? () => deleteFromWishlist(product, addToast)
+                : () => addToWishlist(product, addToast)
+            }
+          >
+            <IoIosHeartEmpty />
+          </button>
 
-            <button
-              className={`product-content__compare space-mr--10 ${
-                compareItem !== undefined ? "active" : ""
-              }`}
-              title={
-                compareItem !== undefined
-                  ? "Added to compare"
-                  : "Add to compare"
-              }
-              onClick={
-                compareItem !== undefined
-                  ? () => deleteFromCompare(product, addToast)
-                  : () => addToCompare(product, addToast)
-              }
-            >
-              <IoIosShuffle />
-            </button>
-          </div>
+          <button
+            className={`product-content__compare space-mr--10 ${
+              compareItem !== undefined ? "active" : ""
+            }`}
+            title={
+              compareItem !== undefined ? "Added to compare" : "Add to compare"
+            }
+            onClick={
+              compareItem !== undefined
+                ? () => deleteFromCompare(product, addToast)
+                : () => addToCompare(product, addToast)
+            }
+          >
+            <IoIosShuffle />
+          </button>
+        </div>
 
-          <div className="product-content__other-info space-mt--50">
-            <table>
-              <tbody>
-                <tr className="single-info">
-                  <td className="title">SKU: </td>
-                  <td className="value">{product.sku}</td>
-                </tr>
-                <tr className="single-info">
-                  <td className="title">Categories: </td>
-                  <td className="value">
-                    {product.category}
-                    {/* {product.category &&
+        <div className="product-content__other-info space-mt--50">
+          <table>
+            <tbody>
+              <tr className="single-info">
+                <td className="title">SKU: </td>
+                <td className="value">{product.sku}</td>
+              </tr>
+              <tr className="single-info">
+                <td className="title">Categories: </td>
+                <td className="value">
+                  {product.category}
+                  {/* {product.category &&
                       product.category.map((item, index, arr) => {
                         return ( */}
-                    {/* <Link
+                  {/* <Link
                       href="/shop"
                       as={process.env.PUBLIC_URL + "/shop"}
                       // key={index}
                     >
                       <a>{item + (index !== arr.length - 1 ? ", " : "")}</a>
                     </Link> */}
-                    {/* );
+                  {/* );
                       })} */}
-                  </td>
-                </tr>
-                <tr className="single-info">
-                  <td className="title">Tags: </td>
-                  <td className="value">
-                    {product.tag &&
-                      product.tag.map((item, index, arr) => {
-                        return (
-                          <Link
-                            href="/shop/left-sidebar"
-                            as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                            key={index}
-                          >
-                            <a>
-                              {item + (index !== arr.length - 1 ? ", " : "")}
-                            </a>
-                          </Link>
-                        );
-                      })}
-                  </td>
-                </tr>
-                <tr className="single-info">
-                  <td className="title">Share on: </td>
-                  <td className="value">
-                    <ul className="social-icons">
-                      <li>
-                        <a href="https://www.twitter.com">
-                          <FaTwitter />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.facebook.com">
-                          <FaFacebookF />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com">
-                          <FaInstagram />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com">
-                          <FaYoutube />
-                        </a>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </Fragment>
-      )}
+                </td>
+              </tr>
+              <tr className="single-info">
+                <td className="title">Tags: </td>
+                <td className="value">
+                  {product.tag &&
+                    product.tag.map((item, index, arr) => {
+                      return (
+                        <Link
+                          href="/shop/left-sidebar"
+                          as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
+                          key={index}
+                        >
+                          <a>{item + (index !== arr.length - 1 ? ", " : "")}</a>
+                        </Link>
+                      );
+                    })}
+                </td>
+              </tr>
+              <tr className="single-info">
+                <td className="title">Share on: </td>
+                <td className="value">
+                  <ul className="social-icons">
+                    <li>
+                      <a href="https://www.twitter.com">
+                        <FaTwitter />
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.facebook.com">
+                        <FaFacebookF />
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.instagram.com">
+                        <FaInstagram />
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.youtube.com">
+                        <FaYoutube />
+                      </a>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </Fragment>
+      {/* )} */}
     </div>
   );
 };

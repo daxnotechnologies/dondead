@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post("/login", login);
 router.post("/signup", signup);
-router.get("/profile", auth, getProfile);
+router.get("/profile", getProfile);
 
 export default router;

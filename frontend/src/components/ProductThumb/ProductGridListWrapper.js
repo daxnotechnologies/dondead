@@ -35,7 +35,7 @@ const ProductGridWrapper = ({
           //   product.price,
           //   product.discount
           // ).toFixed(2);
-          const productPrice = product.price;
+          const [productPrice, setProductPrice] = useState(product.price);
           const cartItem = cartItems.filter(
             (cartItem) => cartItem.id === product.id
           )[0];
@@ -51,6 +51,7 @@ const ProductGridWrapper = ({
               key={product._id}
               product={product}
               // discountedPrice={discountedPrice}
+              setProductPrice={setProductPrice}
               productPrice={productPrice}
               cartItem={cartItem}
               // wishlistItem={wishlistItem}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Form, Input, Select, InputNumber, Radio, Upload, message, Checkbox } from 'antd';
+import { Row, Col, Form, Input, Select, InputNumber, Radio, Upload, message, Checkbox, Space } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
@@ -10,7 +10,7 @@ import Heading from '../../../components/heading/heading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEuroSign } from '@fortawesome/free-solid-svg-icons';
 import FileBase from 'react-file-base64';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
 import { ShareButtonPageHeader } from '../../../components/buttons/share-button/share-button';
 import { ExportButtonPageHeader } from '../../../components/buttons/export-button/export-button';
@@ -21,7 +21,6 @@ import { useHistory } from 'react-router';
 
 const { Option } = Select;
 const { Dragger } = Upload;
-const sizes = [3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14];
 
 const AddProduct = () => {
   const [form] = Form.useForm();
@@ -72,7 +71,7 @@ const AddProduct = () => {
   const handleSubmit = values => {
     // setState({ ...state, submitValues: values });
     // console.log(values);
-    dispatch(addNewProduct({ ...values, price: Number(values.price), image: img }, history));
+    dispatch(addNewProduct({ ...values, image: img }, history));
   };
 
   return (
@@ -143,7 +142,7 @@ const AddProduct = () => {
                                     </Select>
                                   </Form.Item>
 
-                                  <Form.Item
+                                  {/* <Form.Item
                                     name="price"
                                     label="Price"
                                     rules={[{ message: 'Please select your price', required: true }]}
@@ -154,19 +153,64 @@ const AddProduct = () => {
                                       </span>
                                       <InputNumber style={{ width: '100%' }} />
                                     </div>
-                                  </Form.Item>
+                                  </Form.Item> */}
 
-                                  <Form.Item name="size" label="Size">
-                                    <Checkbox.Group>
-                                      <Row>
-                                        {sizes.map(s => (
-                                          <Col span={8} key={s}>
-                                            <Checkbox value={s}>{s}</Checkbox>
-                                          </Col>
+                                  <Form.List name="size" initialValue={[{}]}>
+                                    {(fields, { add, remove }) => (
+                                      <>
+                                        {fields.map(({ key, name, fieldKey, ...restField }) => (
+                                          <Space
+                                            key={key}
+                                            style={{ display: 'flex', marginBottom: 8 }}
+                                            align="baseline"
+                                          >
+                                            <Form.Item
+                                              {...restField}
+                                              name={[name, 'size']}
+                                              fieldKey={[fieldKey, 'size']}
+                                              rules={[{ required: true, message: 'Missing size' }]}
+                                            >
+                                              <InputNumber placeholder="Size" />
+                                            </Form.Item>
+                                            <Form.Item
+                                              {...restField}
+                                              name={[name, 'price']}
+                                              fieldKey={[fieldKey, 'price']}
+                                              rules={[{ required: true, message: 'Missing price' }]}
+                                            >
+                                              <InputNumber placeholder="Price" />
+                                            </Form.Item>
+                                            <MinusCircleOutlined onClick={() => remove(name)} />
+                                          </Space>
                                         ))}
-                                      </Row>
+                                        <Form.Item>
+                                          <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                                            Add field
+                                          </Button>
+                                        </Form.Item>
+                                      </>
+                                    )}
+                                  </Form.List>
+
+                                  {/* <Form.Item name="size" label="Size">
+                                    <Checkbox.Group>
+                                      {sizes.map(({ size, price }) => (
+                                        <Row key={size}>
+                                          <Col span={8}>
+                                            <Checkbox value={size}>{size}</Checkbox>
+                                          </Col>
+                                          <Col span={16}>
+                                            <div className="input-prepend-wrap">
+                                              <span className="input-prepend">
+                                                <FontAwesomeIcon icon={faEuroSign} />
+                                              </span>
+                                              <InputNumber value={price} style={{ width: '100%' }} />
+                                            </div>
+                                          </Col>
+                                        </Row>
+                                      ))}
                                     </Checkbox.Group>
-                                  </Form.Item>
+                                  </Form.Item> */}
 
                                   {/* <Form.Item name="discount" label="Discount">
                                     <div className="input-prepend-wrap">
