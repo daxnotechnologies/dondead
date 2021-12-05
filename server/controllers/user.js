@@ -98,7 +98,7 @@ export const getProfile = async (req, res) => {
   }
 };
 
-export const updatePaypal = async (req, res) => {
+export const updateProfile = async (req, res) => {
   try {
     const user = req.body;
     const h = await User.findByIdAndUpdate(user._id, user, { new: true });

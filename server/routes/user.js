@@ -4,7 +4,7 @@ import {
   login,
   signup,
   getProfile,
-  updatePaypal,
+  updateProfile,
 } from "../controllers/user.js";
 
 const router = express.Router();
@@ -12,6 +12,6 @@ const router = express.Router();
 router.post("/login", login);
 router.post("/signup", signup);
 router.get("/profile", auth, getProfile);
-router.patch("/paypal", updatePaypal);
+router.patch("/update", updateProfile);
 
 export default router;
