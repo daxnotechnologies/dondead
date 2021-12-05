@@ -1,11 +1,15 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+// const API = axios.create({
+//   baseURL: "http://localhost:8080/",
+// });
+
 const API = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "https://dondead-server.uc.r.appspot.com/",
 });
 
-API.interceptors.request.use((req) => {
+https: API.interceptors.request.use((req) => {
   if (Cookies.get("token")) {
     req.headers.authorization = `Bearer ${Cookies.get("token")}`;
   }
