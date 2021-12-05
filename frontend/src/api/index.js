@@ -38,4 +38,4 @@ export const getOffers = (offererID) =>
   });
 
 export const cancelOffer = (offer) => API.post("offer/cancel", offer);
-export const paypalUpdate = (user) => API.patch("user/paypal", user);
+export const paypalUpdate = (user) => API.patch("user/update", user);
