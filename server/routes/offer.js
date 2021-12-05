@@ -10,9 +10,9 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/new", auth, newOffer);
+router.post("/new", newOffer);
 router.get("/", getOffers);
-router.get("/profile", auth, getProfileOffers);
+router.get("/profile", getProfileOffers);
 router.post("/cancel", cancelOffer);
 
 export default router;

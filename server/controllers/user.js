@@ -67,7 +67,7 @@ export const signup = async (req, res) => {
 };
 
 export const getProfile = async (req, res) => {
-  if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
+  // if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
 
   try {
     const {

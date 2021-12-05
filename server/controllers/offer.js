@@ -15,7 +15,7 @@ var transporter = createTransport({
 });
 
 export const newOffer = async (req, res) => {
-  if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
+  // if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
 
   const offer = req.body;
 
