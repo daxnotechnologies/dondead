@@ -4,7 +4,6 @@ const initialState = {
   firstName: 'woadud',
   lastName: 'a',
   email: 'woaduda@gmail.com',
-  mobile: '01742920502',
   _id: 1,
   loading: false,
 };
@@ -20,9 +19,10 @@ const themeUsersReducer = (state = initialState, action) => {
         loading: true,
       };
     case THEME_USER_SUCCESS:
+      console.log(data);
       return {
         ...state,
-        data,
+        ...data,
         loading: false,
       };
     case THEME_USER_BEGIN:

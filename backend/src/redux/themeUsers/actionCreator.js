@@ -7,6 +7,7 @@ export const getProfileRed = () => {
   return async dispatch => {
     try {
       dispatch(changeUserBegin());
+
       const { data } = await getProfile();
       dispatch(changeUserSuccess(data));
     } catch (err) {

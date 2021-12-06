@@ -19,14 +19,12 @@ const Sellers = () => {
       sellers: state.sellers,
     };
   });
-
   const [state, setState] = useState({
     notData: searchData,
     item: sellers,
     selectedRowKeys: [],
   });
   const { notData, selectedRowKeys, item } = state;
-
   useEffect(() => {
     if (sellers) {
       setState({
@@ -35,7 +33,6 @@ const Sellers = () => {
       });
     }
   }, [sellers, selectedRowKeys]);
-
   const handleSearch = searchText => {
     const data = searchData.filter(value => value.title.toUpperCase().startsWith(searchText.toUpperCase()));
     setState({
@@ -43,7 +40,6 @@ const Sellers = () => {
       notData: data,
     });
   };
-
   const dataSource = [];
   if (sellers.length)
     item.map(value => {
@@ -53,7 +49,7 @@ const Sellers = () => {
         name: (
           <div className="seller-info">
             <>
-              <img src={require(`../../${img}`)} alt="" />
+              <img src={img} alt="" />
               {name}
             </>
           </div>
@@ -76,7 +72,6 @@ const Sellers = () => {
         ),
       });
     });
-
   const columns = [
     {
       title: 'Sellers',
@@ -109,16 +104,13 @@ const Sellers = () => {
       key: 'action',
     },
   ];
-
   const onSelectChange = selectedRowKey => {
     setState({ ...state, selectedRowKeys: selectedRowKey });
   };
-
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
   };
-
   return (
     <>
       <PageHeader

@@ -2,8 +2,8 @@ import React, { lazy, Suspense } from 'react';
 import { Spin } from 'antd';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Dashboard from './dashboard';
-import Pages from './pages';
-import Users from './users';
+// import Pages from './pages';
+// import Users from './users';
 
 import Ecommerce from './ecommerce';
 
@@ -23,9 +23,9 @@ const Admin = () => {
       >
         <Route path={path} component={Dashboard} />
         <Route path={`${path}/ecommerce`} component={Ecommerce} />
-        <Route path={`${path}`} component={Pages} />
+        {/* <Route path={`${path}`} component={Pages} />
 
-        <Route path={`${path}/users`} component={Users} />
+        <Route path={`${path}/users`} component={Users} /> */}
       </Suspense>
     </Switch>
   );

@@ -12,14 +12,13 @@ import { updateWishList } from '../../../../redux/product/actionCreator';
 const ProductCardsList = ({ product }) => {
   const { id, name, rate, price, oldPrice, popular, img, description } = product;
   const dispatch = useDispatch();
-
   return (
     <ProductCard className="list-view" style={{ marginBottom: 20 }}>
       <div className="product-list">
         <Row gutter={15}>
           <Col md={6} xs={24}>
             <figure>
-              <img style={{ width: '100%' }} src={require(`../../../../${img}`)} alt="" />
+              <img style={{ width: '100%' }} src={img} alt="" />
             </figure>
           </Col>
           <Col md={12} xs={24}>

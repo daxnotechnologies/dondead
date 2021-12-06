@@ -39,18 +39,18 @@ const AuthInfo = () => {
         <figure className="user-dropdwon__info">
           <img src={require('../../../static/img/avatar/chat-auth.png')} alt="" />
           <figcaption>
-            <Heading as="h5">Abdullah Bin Talha</Heading>
-            <p>UI Expert</p>
+            <Heading as="h5">{`${profile.firstName} ${profile.lastName}`}</Heading>
+            <p>Admin</p>
           </figcaption>
         </figure>
         <ul className="user-dropdwon__links">
-          <li>
+          {/* <li>
             <Link to="#">
               <FeatherIcon icon="user" /> Profile
             </Link>
-          </li>
+          </li> */}
           <li>
-            <Link to="#">
+            <Link to="/admin/settings">
               <FeatherIcon icon="settings" /> Settings
             </Link>
           </li>

@@ -12,9 +12,9 @@ import { ExportButtonPageHeader } from '../../components/buttons/export-button/e
 import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
 import { cartGetData } from '../../redux/cart/actionCreator';
 
-const Checkout = lazy(() => import('./overview/CheckOut'));
-const CartTable = lazy(() => import('./overview/CartTable'));
-const Ordersummary = lazy(() => import('./overview/Ordersummary'));
+// const Checkout = lazy(() => import('./overview/CheckOut'));
+// const CartTable = lazy(() => import('./overview/CartTable'));
+// const Ordersummary = lazy(() => import('./overview/Ordersummary'));
 
 const ShoppingCart = () => {
   const dispatch = useDispatch();

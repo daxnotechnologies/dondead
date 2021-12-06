@@ -18,7 +18,7 @@ const Grid = () => {
   const [state, setState] = useState({
     products: productsAll,
     current: 0,
-    pageSize: 0,
+    pageSize: 10,
   });
 
   const { products } = state;
@@ -30,10 +30,11 @@ const Grid = () => {
   useEffect(() => {
     if (productsAll) {
       setState({
+        current: 0,
+        pageSize: 10,
         products: productsAll,
       });
     }
-    console.log(products);
   }, [productsAll]);
 
   const onShowSizeChange = (current, pageSize) => {
@@ -42,7 +43,12 @@ const Grid = () => {
 
   const onHandleChange = (current, pageSize) => {
     // You can create pagination in here
-    setState({ ...state, current, pageSize });
+
+    const s = current * pageSize - pageSize;
+
+    products = products.slice(s, current * pageSize);
+
+    setState({ products, current, pageSize });
   };
 
   return (
@@ -77,7 +83,7 @@ const Grid = () => {
               onShowSizeChange={onShowSizeChange}
               pageSize={10}
               defaultCurrent={1}
-              total={40}
+              total={productsAll ? productsAll.length : 0}
             />
           ) : null}
         </PaginationWrapper>
