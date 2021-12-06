@@ -56,18 +56,18 @@ const Ecommerce = () => {
     <>
       <PageHeader
         ghost
-        title="Ecommerce Dashboard"
-        buttons={[
-          <div key="1" className="page-header-actions">
-            <CalendarButtonPageHeader />
-            <ExportButtonPageHeader />
-            <ShareButtonPageHeader />
-            <Button size="small" type="primary">
-              <FeatherIcon icon="plus" size={14} />
-              Add New
-            </Button>
-          </div>,
-        ]}
+        title="Dondead Dashboard"
+        // buttons={[
+        //   <div key="1" className="page-header-actions">
+        //     <CalendarButtonPageHeader />
+        //     <ExportButtonPageHeader />
+        //     <ShareButtonPageHeader />
+        //     <Button size="small" type="primary">
+        //       <FeatherIcon icon="plus" size={14} />
+        //       Add New
+        //     </Button>
+        //   </div>,
+        // ]}
       />
       <Main>
         <Row gutter={25}>

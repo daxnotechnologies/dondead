@@ -209,7 +209,9 @@ const ThemeLayout = WrappedComponent => {
                     to="/admin"
                   >
                     <img
-                      src={!darkMode ? require(`../static/img/Logo_Dark.svg`) : require(`../static/img/Logo_white.png`)}
+                      src={
+                        !darkMode ? require(`../static/img/xxx_125x@2x.png`) : require(`../static/img/xxx_125x@2x.png`)
+                      }
                       alt=""
                     />
                   </Link>
@@ -264,7 +266,7 @@ const ThemeLayout = WrappedComponent => {
               </Row>
             </Header>
             <div className="header-more">
-              <Row>
+              {/* <Row>
                 <Col md={0} sm={24} xs={24}>
                   <div className="small-screen-headerRight">
                     <SmallScreenSearch hide={searchHide} darkMode={darkMode}>
@@ -275,7 +277,7 @@ const ThemeLayout = WrappedComponent => {
                     </SmallScreenAuthInfo>
                   </div>
                 </Col>
-              </Row>
+              </Row> */}
             </div>
             <Layout>
               {!topMenu || window.innerWidth <= 991 ? (
@@ -291,7 +293,7 @@ const ThemeLayout = WrappedComponent => {
                       renderView={renderView}
                       renderTrackVertical={renderTrackVertical}
                     >
-                      <p className="sidebar-nav-title">MAIN MENU</p>
+                      {/* <p className="sidebar-nav-title">MAIN MENU</p> */}
                       <MenueItems
                         topMenu={topMenu}
                         rtl={rtl}

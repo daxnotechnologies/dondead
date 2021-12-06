@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar } from 'antd';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FeatherIcon from 'feather-icons-react';
 import { InfoWraper, NavAuth, UserDropDwon } from './auth-info-style';
 import Message from './message';
@@ -12,13 +12,21 @@ import { Popover } from '../../popup/popup';
 import { Dropdown } from '../../dropdown/dropdown';
 import { logOut } from '../../../redux/authentication/actionCreator';
 import Heading from '../../heading/heading';
+import { getProfileRed } from '../../../redux/themeUsers/actionCreator';
 
 const AuthInfo = () => {
+  const profile = useSelector(state => state.themeUsers);
   const dispatch = useDispatch();
   const [state, setState] = useState({
     flag: 'english',
   });
   const { flag } = state;
+
+  console.log(profile);
+
+  useEffect(() => {
+    dispatch(getProfileRed());
+  }, []);
 
   const SignOut = e => {
     e.preventDefault();
@@ -46,7 +54,7 @@ const AuthInfo = () => {
               <FeatherIcon icon="settings" /> Settings
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="#">
               <FeatherIcon icon="dollar-sign" /> Billing
             </Link>
@@ -60,7 +68,7 @@ const AuthInfo = () => {
             <Link to="#">
               <FeatherIcon icon="bell" /> Help
             </Link>
-          </li>
+          </li> */}
         </ul>
         <Link className="user-dropdwon__bottomAction" onClick={SignOut} to="#">
           <FeatherIcon icon="log-out" /> Sign Out
@@ -99,18 +107,18 @@ const AuthInfo = () => {
 
   return (
     <InfoWraper>
-      <Message />
+      {/* <Message />
       <Notification />
 
       <Settings />
-      <Support />
-      <div className="nav-author">
+      <Support /> */}
+      {/* <div className="nav-author">
         <Dropdown placement="bottomRight" content={country} trigger="click">
           <Link to="#" className="head-example">
             <img src={require(`../../../static/img/flag/${flag}.png`)} alt="" />
           </Link>
         </Dropdown>
-      </div>
+      </div> */}
 
       <div className="nav-author">
         <Popover placement="bottomRight" content={userContent} action="click">

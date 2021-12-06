@@ -67,9 +67,11 @@ export const getProfile = async (req, res) => {
   // if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
 
   try {
-    const { firstName, lastName, email } = await Admin.findById(req.userId);
+    const { firstName, lastName, email, _id } = await Admin.findById(
+      req.userId
+    );
 
-    res.status(200).json({ firstName, lastName, email });
+    res.status(200).json({ firstName, lastName, email, _id });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong." });
   }
