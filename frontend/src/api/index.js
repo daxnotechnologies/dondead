@@ -9,7 +9,7 @@ const API = axios.create({
   baseURL: "https://dondead-server.uc.r.appspot.com/",
 });
 
-https: API.interceptors.request.use((req) => {
+API.interceptors.request.use((req) => {
   if (Cookies.get("token")) {
     req.headers.authorization = `Bearer ${Cookies.get("token")}`;
   }
