@@ -14,6 +14,7 @@ const CartOverlay = ({
 }) => {
   let cartTotalPrice = 0;
   const { addToast } = useToasts();
+
   return (
     <div className={`cart-overlay ${activeStatus ? "active" : ""}`}>
       <div
@@ -43,8 +44,7 @@ const CartOverlay = ({
                 <CustomScroll allowOuterScroll={true}>
                   {cartItems.map((product, i) => {
                     const discountedPrice = getDiscountPrice(
-                      product.price,
-                      product.discount
+                      product.productPrice
                     ).toFixed(2);
 
                     cartTotalPrice += discountedPrice * product.quantity;
@@ -78,13 +78,12 @@ const CartOverlay = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>{product.name}</a>
+                              <a>{product.title}</a>
                             </Link>
                           </h5>
                           {product.selectedProductColor &&
                           product.selectedProductSize ? (
                             <div className="cart-item-variation">
-                              <span>Color: {product.selectedProductColor}</span>
                               <span>Size: {product.selectedProductSize}</span>
                             </div>
                           ) : (
@@ -92,7 +91,7 @@ const CartOverlay = ({
                           )}
                           <p>
                             <span className="cart-count">
-                              {product.quantity} x{" "}
+                              {/* {product.quantity} x{" "} */}
                             </span>{" "}
                             <span className="discounted-price">
                               ${discountedPrice}
@@ -127,9 +126,9 @@ const CartOverlay = ({
                 </Link>
               </div>
               {/*=======  free shipping text  =======*/}
-              <p className="free-shipping-text">
+              {/* <p className="free-shipping-text">
                 Free Shipping on All Orders Over $100!
-              </p>
+              </p> */}
             </div>
           ) : (
             "No items found in cart"

@@ -24,7 +24,7 @@ const ProductDescription = ({
     product.variation ? product.variation[0].color : ""
   );
   const [selectedProductSize, setSelectedProductSize] = useState(
-    product.variation ? product.variation[0].size[0].name : ""
+    product.size ? product.size[0].size : ""
   );
   const [productStock, setProductStock] = useState(
     product.variation ? product.variation[0].size[0].stock : product.stock
@@ -52,22 +52,15 @@ const ProductDescription = ({
       ) : (
         ""
       )}
-      <h2 className="product-content__title space-mb--20">{product.name}</h2>
+      <h2 className="product-content__title space-mb--20">{product.title}</h2>
       <div className="product-content__price space-mb--20">
-        {product.discount > 0 ? (
-          <Fragment>
-            <span className="main-price discounted">${productPrice}</span>
-            <span className="main-price">${discountedPrice}</span>
-          </Fragment>
-        ) : (
-          <span className="main-price">${productPrice} </span>
-        )}
+        <span className="main-price">${productPrice.toFixed(2)} </span>
       </div>
       <div className="product-content__description space-mb--30">
         <p>{product.shortDescription}</p>
       </div>
 
-      {product.variation ? (
+      {/* {product.variation ? (
         <div className="product-content__size-color">
           <div className="product-content__size space-mb--20">
             <div className="product-content__size__title">Size</div>
@@ -136,7 +129,7 @@ const ProductDescription = ({
         </div>
       ) : (
         ""
-      )}
+      )} */}
       {/* {product.affiliateLink ? (
         <div className="product-content__quality">
           <div className="product-content__cart btn-hover">
@@ -152,10 +145,14 @@ const ProductDescription = ({
         </div>
       ) : ( */}
       <Fragment>
+        <div className="product-content__size__title space-mb--10">Size</div>
         <div className="product-content__quantity space-mb--40">
           {product.size.map(({ size, price }) => (
             <button
-              onClick={() => setProductPrice(price)}
+              onClick={() => {
+                setSelectedProductSize(size);
+                setProductPrice(price);
+              }}
               className="lezada-button lezada-button--medium product-content__cart space-mr--10"
             >
               {size}
@@ -201,8 +198,8 @@ const ProductDescription = ({
                 product,
                 addToast,
                 quantityCount,
-                selectedProductColor,
-                selectedProductSize
+                selectedProductSize,
+                productPrice
               )
             }
             // disabled={productCartQty >= productStock}
@@ -286,8 +283,8 @@ const ProductDescription = ({
                     product.tag.map((item, index, arr) => {
                       return (
                         <Link
-                          href="/shop/left-sidebar"
-                          as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
+                          href="/shop"
+                          as={process.env.PUBLIC_URL + "/shop"}
                           key={index}
                         >
                           <a>{item + (index !== arr.length - 1 ? ", " : "")}</a>

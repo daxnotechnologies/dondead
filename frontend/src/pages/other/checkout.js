@@ -41,7 +41,7 @@ const Checkout = ({ cartItems }) => {
 
   const handleCheckout = (e) => {
     e.preventDefault();
-    const products = cartItems.map((product) => product._id);
+    const products = cartItems.map((product) => product);
     const offererID = profile._id;
     const status = "NOT DELIVERED";
     const amount = cartTotalPrice;
@@ -86,7 +86,7 @@ const Checkout = ({ cartItems }) => {
                         {/* Billing Address */}
                         <div id="billing-form" className="space-mb--40">
                           <h4 className="checkout-title">Billing Address</h4>
-                          {profile.billing ? (
+                          {profile?.billing ? (
                             <div className="row">
                               <div className="col-md-6 col-12 space-mb--20">
                                 <label>
@@ -168,8 +168,7 @@ const Checkout = ({ cartItems }) => {
                               <ul>
                                 {cartItems.map((product, i) => {
                                   const discountedPrice = getDiscountPrice(
-                                    product.price,
-                                    product.discount
+                                    product.productPrice
                                   ).toFixed(2);
 
                                   cartTotalPrice +=

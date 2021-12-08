@@ -8,28 +8,21 @@ export const addToCart = (
   item,
   addToast,
   quantityCount,
-  selectedProductColor,
-  selectedProductSize
+  selectedProductSize,
+  productPrice
 ) => {
   return (dispatch) => {
     if (addToast) {
       addToast("Added To Cart", { appearance: "success", autoDismiss: true });
     }
+
     dispatch({
       type: ADD_TO_CART,
       payload: {
         ...item,
         quantity: quantityCount,
-        selectedProductColor: selectedProductColor
-          ? selectedProductColor
-          : item.selectedProductColor
-          ? item.selectedProductColor
-          : null,
-        selectedProductSize: selectedProductSize
-          ? selectedProductSize
-          : item.selectedProductSize
-          ? item.selectedProductSize
-          : null,
+        selectedProductSize,
+        productPrice,
       },
     });
   };

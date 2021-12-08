@@ -70,8 +70,7 @@ const Cart = ({
                   <tbody>
                     {cartItems.map((product, i) => {
                       const discountedPrice = getDiscountPrice(
-                        product.price,
-                        product.discount
+                        product.productPrice
                       ).toFixed(2);
 
                       cartTotalPrice += discountedPrice * product.quantity;
@@ -96,7 +95,7 @@ const Cart = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>{product.name}</a>
+                              <a>{product.title}</a>
                             </Link>
                             {product.selectedProductColor &&
                             product.selectedProductSize ? (
@@ -173,7 +172,7 @@ const Cart = ({
               </Col>
               <Col lg={12} className="space-mb--r100">
                 <div className="cart-coupon-area space-pt--30 space-pb--30">
-                  <Row className="align-items-center">
+                  {/* <Row className="align-items-center">
                     <Col lg={7} className="space-mb-mobile-only--30">
                       <div className="lezada-form coupon-form">
                         <form>
@@ -201,7 +200,7 @@ const Cart = ({
                         clear cart
                       </button>
                     </Col>
-                  </Row>
+                  </Row> */}
                 </div>
               </Col>
               <Col lg={5} className="ml-auto">

@@ -7,7 +7,6 @@ const offerSchema = mongoose.Schema({
   status: { type: String, required: true },
   timestamp: { type: Date, required: true },
   cancel: { type: Boolean, required: true },
-  balance: { type: Number, required: true },
 });
 
 export default mongoose.model("Offer", offerSchema);

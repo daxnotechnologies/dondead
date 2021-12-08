@@ -147,11 +147,11 @@ const ProductGridList = ({
                     product.slug
                   }
                 >
-                  <a>{product.name}</a>
+                  <a>{product.title}</a>
                 </Link>
               </h3>
               {/* add to cart */}
-              {product.affiliateLink ? (
+              {/* {product.affiliateLink ? (
                 <a href={product.affiliateLink} target="_blank">
                   Buy now
                 </a>
@@ -176,7 +176,7 @@ const ProductGridList = ({
                 >
                   {cartItem !== undefined ? "Added to cart" : "Add to cart"}
                 </button>
-              )}
+              )} */}
             </div>
             <div className="price">
               {product.discount > 0 ? (
@@ -185,7 +185,9 @@ const ProductGridList = ({
                   <span className="discounted-price">${discountedPrice}</span>
                 </Fragment>
               ) : (
-                <span className="main-price">${productPrice}</span>
+                <span className="main-price">
+                  $ {product.size[0].size.toFixed(2)}
+                </span>
               )}
             </div>
           </div>
@@ -312,25 +314,25 @@ const ProductGridList = ({
                     product.slug
                   }
                 >
-                  <a>{product.name}</a>
+                  <a>{product.title}</a>
                 </Link>
               </h3>
             </div>
             <div className="price">
-              {product.discount > 0 ? (
+              {/* {product.discount > 0 ? (
                 <Fragment>
                   <span className="main-price discounted">${productPrice}</span>
                   <span className="discounted-price">${discountedPrice}</span>
                 </Fragment>
-              ) : (
-                <span className="main-price">${productPrice}</span>
-              )}
+              ) : ( */}
+              <span className="main-price">${10}</span>
+              {/* )} */}
             </div>
 
-            <div className="short-description">{product.shortDescription}</div>
-            <div className="add-to-cart">
-              {/* add to cart */}
-              {product.affiliateLink ? (
+            <div className="short-description">{product.description}</div>
+            {/* <div className="add-to-cart"> */}
+            {/* add to cart */}
+            {/* {product.affiliateLink ? (
                 <a
                   href={product.affiliateLink}
                   target="_blank"
@@ -369,8 +371,8 @@ const ProductGridList = ({
                 >
                   Out of Stock
                 </button>
-              )}
-            </div>
+              )} */}
+            {/* </div> */}
           </div>
         </div>
       </Col>

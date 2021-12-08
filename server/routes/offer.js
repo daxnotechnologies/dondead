@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post("/new", newOffer);
 router.get("/", getOffers);
-router.get("/profile", getProfileOffers);
+router.get("/profile", auth, getProfileOffers);
 router.post("/cancel", cancelOffer);
 
 export default router;

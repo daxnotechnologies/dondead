@@ -9,34 +9,28 @@ import {
 const initState = [];
 
 const cartReducer = (state = initState, action) => {
-  const cartItems = state,
+  let cartItems = state,
     product = action.payload;
 
   if (action.type === ADD_TO_CART) {
     // for non variant products
     // if (product.variation === undefined) {
-    const cartItem = cartItems.filter((item) => item._id === product._id)[0];
-    if (cartItem === undefined) {
-      return [
-        ...cartItems,
-        {
-          ...product,
-          quantity: product.quantity ? product.quantity : 1,
-          cartItemId: uuidv4(),
-        },
-      ];
-    } else {
-      return cartItems.map((item) =>
-        item._id === cartItem._id
-          ? {
-              ...item,
-              quantity: product.quantity
-                ? item.quantity + product.quantity
-                : item.quantity + 1,
-            }
-          : item
-      );
-    }
+    // const cartItem = cartItems.filter((item) => item._id === product._id)[0];
+    // if (cartItem === undefined) {
+    cartItems.push(product);
+    return cartItems;
+    // } else {
+    //   return cartItems.map((item) =>
+    //     item._id === cartItem._id
+    //       ? {
+    //           ...item,
+    //           quantity: product.quantity
+    //             ? item.quantity + product.quantity
+    //             : item.quantity + 1,
+    //         }
+    //       : item
+    //   );
+    // }
     // for variant products
     // } else {
     //   const cartItem = cartItems.filter(

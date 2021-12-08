@@ -20,7 +20,6 @@ import {
   addToCompare,
   deleteFromCompare,
 } from "../../../redux/actions/compareActions";
-import products from "../../../data/products.json";
 import { getAllProduct, getProduct } from "../../../api";
 import { useState } from "react";
 
@@ -41,9 +40,7 @@ const ProductBasic = ({
 
   const { addToast } = useToasts();
   // const discountedPrice = product.size[0].price.toFixed(2);
-  const [productPrice, setProductPrice] = useState(
-    product.size[0].price.toFixed(2)
-  );
+  const [productPrice, setProductPrice] = useState(product.size[0].price);
   const cartItem = cartItems.filter(
     (cartItem) => cartItem.id === product.id
   )[0];
