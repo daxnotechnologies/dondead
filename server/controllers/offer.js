@@ -115,7 +115,7 @@ export const cancelOffer = async (req, res) => {
   }
 };
 
-export const updateArrive = (req, res) => {
+export const updateArrive = async (req, res) => {
   try {
     const { _id, offer } = req.body;
 
@@ -144,7 +144,7 @@ export const updateArrive = (req, res) => {
   }
 };
 
-export const updateVerified = (req, res) => {
+export const updateVerified = async (req, res) => {
   try {
     const { _id, offer } = req.body;
 
