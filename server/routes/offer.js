@@ -1,11 +1,11 @@
 import express from "express";
-import { updateVerified } from "../../backend/src/api/index.js";
 import {
   cancelOffer,
   getOffers,
   getProfileOffers,
   newOffer,
   updateArrive,
+  updateVerified,
 } from "../controllers/offer.js";
 
 import auth from "../middleware/auth.js";
