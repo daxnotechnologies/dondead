@@ -114,3 +114,61 @@ export const cancelOffer = async (req, res) => {
     res.status(500).json({ message: "Something went wrong." });
   }
 };
+
+export const updateArrive = (req, res) => {
+  try {
+    const { _id, offer } = req.body;
+
+    const u = await Offer.findByIdAndUpdate(_id, offer);
+
+    const { email } = await User.findById(u.offererID);
+
+    var mailOptions = {
+      from: "testfirebaseorfik@gmail.com",
+      to: email,
+      subject: "Offer Received",
+      text: "The offer you sent has been received",
+    };
+
+    res.status(200);
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
+export const updateVerified = (req, res) => {
+  try {
+    const { _id, offer } = req.body;
+
+    const u = await Offer.findByIdAndUpdate(_id, offer);
+
+    const { email } = await User.findById(u.offererID);
+
+    var mailOptions = {
+      from: "testfirebaseorfik@gmail.com",
+      to: email,
+      subject: "Offer Verified",
+      text: "The offer you sent has been verified",
+    };
+
+    res.status(200);
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};

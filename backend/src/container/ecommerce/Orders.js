@@ -13,6 +13,7 @@ import { orderFilter } from '../../redux/orders/actionCreator';
 import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
 import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
 import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
+import { updateArrive, updateVerified } from '../../api';
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -77,21 +78,33 @@ const Orders = () => {
         ),
         amount: <span className="ordered-amount">{amount}</span>,
         // date: <span className="ordered-date">{date}</span>,
-        // action: (
-        //   <div className="table-actions">
-        //     <>
-        //       <Button className="btn-icon" type="primary" to="#" shape="circle">
-        //         <FeatherIcon icon="eye" size={16} />
-        //       </Button>
-        //       <Button className="btn-icon" type="info" to="#" shape="circle">
-        //         <FeatherIcon icon="edit" size={16} />
-        //       </Button>
-        //       <Button className="btn-icon" type="danger" to="#" shape="circle">
-        //         <FeatherIcon icon="trash-2" size={16} />
-        //       </Button>
-        //     </>
-        //   </div>
-        // ),
+        action: (
+          <div className="table-actions">
+            <>
+              <Button
+                style={{ backgroundColor: 'blue', color: 'white' }}
+                onClick={() => updateArrive({ _id, offer: { ...value, status: 'ARRIVED' } })}
+              >
+                Mark as Arrived
+              </Button>
+              <Button
+                style={{ backgroundColor: 'red', color: 'white', marginLeft: '5px' }}
+                onClick={() => updateVerified({ _id, offer: { ...value, status: 'VERIFIED' } })}
+              >
+                Mark as Verified
+              </Button>
+              {/* <Button className="btn-icon" type="primary" to="#" shape="circle">
+                <FeatherIcon icon="eye" size={16} />
+              </Button>
+              <Button className="btn-icon" type="info" to="#" shape="circle">
+                <FeatherIcon icon="edit" size={16} />
+              </Button>
+              <Button className="btn-icon" type="danger" to="#" shape="circle">
+                <FeatherIcon icon="trash-2" size={16} />
+              </Button> */}
+            </>
+          </div>
+        ),
       });
     });
   }
@@ -122,11 +135,11 @@ const Orders = () => {
     //   dataIndex: 'date',
     //   key: 'date',
     // },
-    // {
-    //   title: 'Action',
-    //   dataIndex: 'action',
-    //   key: 'action',
-    // },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      key: 'action',
+    },
   ];
 
   const onSelectChange = selectedRowKey => {

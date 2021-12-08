@@ -116,23 +116,23 @@ const Sellers = () => {
       <PageHeader
         ghost
         title="Sellers"
-        buttons={[
-          <div key="1" className="page-header-actions">
-            <CalendarButtonPageHeader key="1" />
-            <ExportButtonPageHeader key="2" />
-            <ShareButtonPageHeader key="3" />
-            <Button size="small" key="4" type="primary">
-              <FeatherIcon icon="plus" size={14} />
-              Add New
-            </Button>
-          </div>,
-        ]}
+        // buttons={[
+        //   <div key="1" className="page-header-actions">
+        //     <CalendarButtonPageHeader key="1" />
+        //     <ExportButtonPageHeader key="2" />
+        //     <ShareButtonPageHeader key="3" />
+        //     <Button size="small" key="4" type="primary">
+        //       <FeatherIcon icon="plus" size={14} />
+        //       Add New
+        //     </Button>
+        //   </div>,
+        // ]}
       />
       <Main>
         <Cards headless>
           <Row gutter={15}>
             <Col md={24}>
-              <TopToolBox>
+              {/* <TopToolBox>
                 <Row gutter={15}>
                   <Col xxl={5} lg={10} xs={24}>
                     <div className="table-search-box">
@@ -151,7 +151,7 @@ const Sellers = () => {
                     </div>
                   </Col>
                 </Row>
-              </TopToolBox>
+              </TopToolBox> */}
             </Col>
             <Col md={24}>
               <TableWrapper className="table-seller table-responsive">

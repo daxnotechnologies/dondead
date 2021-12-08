@@ -5,10 +5,12 @@ import {
   signup,
   getProfile,
   updateProfile,
+  getAll,
 } from "../controllers/user.js";
 
 const router = express.Router();
 
+router.get("/", getAll);
 router.post("/login", login);
 router.post("/signup", signup);
 router.get("/profile", auth, getProfile);

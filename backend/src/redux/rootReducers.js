@@ -28,8 +28,8 @@ import FileManager from './fileManager/reducers';
 const rootReducers = combineReducers({
   themeUsers: themeUsersReducer,
   headerSearchData: headerSearchReducer,
-  message: readMessageReducer,
-  notification: readNotificationReducer,
+  // message: readMessageReducer,
+  // notification: readNotificationReducer,
   orders: orderReducer,
   sellers: sellersReducer,
   users: userReducer,
@@ -50,14 +50,14 @@ const rootReducers = combineReducers({
   ChangeLayoutMode,
   chartContent: chartContentReducer,
   cart: cartData,
-  Todo,
-  Note,
-  Task,
-  KanbanBoard: kanbanBoardReducer,
-  Contact,
+  // Todo,
+  // Note,
+  // Task,
+  // KanbanBoard: kanbanBoardReducer,
+  // Contact,
   Profile,
-  Calender,
-  FileManager,
+  // Calender,
+  // FileManager,
 });
 
 export default rootReducers;

@@ -30,3 +30,7 @@ export const getProduct = slug =>
   });
 
 export const getOffers = () => API.get('offer/');
+export const updateArrive = u => API.patch('offer/arrive', u);
+export const updateVerified = u => API.patch('offer/verified', u);
+
+export const getAllUsers = () => API.get('user/');

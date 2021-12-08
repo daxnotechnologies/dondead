@@ -77,11 +77,11 @@ const MenuItems = ({ darkMode, toggleCollapsed, topMenu, events }) => {
           Sellers
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="Invoice">
+      {/* <Menu.Item key="Invoice">
         <NavLink onClick={toggleCollapsed} to={`${path}/ecommerce/Invoice`}>
           Invoices
         </NavLink>
-      </Menu.Item>
+      </Menu.Item> */}
 
       <Menu.Item key="settings">
         <NavLink onClick={toggleCollapsed} to={`${path}/settings`}>
