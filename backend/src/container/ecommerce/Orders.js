@@ -81,18 +81,28 @@ const Orders = () => {
         action: (
           <div className="table-actions">
             <>
-              <Button
-                style={{ backgroundColor: 'blue', color: 'white' }}
-                onClick={() => updateArrive({ _id, offer: { ...value, status: 'ARRIVED' } })}
-              >
-                Mark as Arrived
-              </Button>
-              <Button
-                style={{ backgroundColor: 'red', color: 'white', marginLeft: '5px' }}
-                onClick={() => updateVerified({ _id, offer: { ...value, status: 'VERIFIED' } })}
-              >
-                Mark as Verified
-              </Button>
+              {status === 'ARRIVED' ? (
+                ''
+              ) : (
+                <Button
+                  style={{ backgroundColor: 'blue', color: 'white' }}
+                  onClick={() => updateArrive({ _id, offer: { ...value, status: 'ARRIVED' } })}
+                >
+                  Mark as Arrived
+                </Button>
+              )}
+
+              {status === 'VERIFIED' ? (
+                ''
+              ) : (
+                <Button
+                  style={{ backgroundColor: 'red', color: 'white', marginLeft: '5px' }}
+                  onClick={() => updateVerified({ _id, offer: { ...value, status: 'VERIFIED' } })}
+                >
+                  Mark as Verified
+                </Button>
+              )}
+
               {/* <Button className="btn-icon" type="primary" to="#" shape="circle">
                 <FeatherIcon icon="eye" size={16} />
               </Button>
@@ -157,23 +167,23 @@ const Orders = () => {
       <PageHeader
         ghost
         title="Orders"
-        buttons={[
-          <div key="1" className="page-header-actions">
-            <CalendarButtonPageHeader key="1" />
-            <ExportButtonPageHeader key="2" />
-            <ShareButtonPageHeader key="3" />
-            <Button size="small" key="4" type="primary">
-              <FeatherIcon icon="plus" size={14} />
-              Add New
-            </Button>
-          </div>,
-        ]}
+        // buttons={[
+        //   <div key="1" className="page-header-actions">
+        //     <CalendarButtonPageHeader key="1" />
+        //     <ExportButtonPageHeader key="2" />
+        //     <ShareButtonPageHeader key="3" />
+        //     <Button size="small" key="4" type="primary">
+        //       <FeatherIcon icon="plus" size={14} />
+        //       Add New
+        //     </Button>
+        //   </div>,
+        // ]}
       />
       <Main>
         <Cards headless>
           <Row gutter={15}>
             <Col xs={24}>
-              <TopToolBox>
+              {/* <TopToolBox>
                 <Row gutter={15} className="justify-content-center">
                   <Col lg={6} xs={24}>
                     <div className="table-search-box">
@@ -196,7 +206,7 @@ const Orders = () => {
                       </Radio.Group>
                     </div>
                   </Col>
-                  {/* <Col xxl={4} xs={24}>
+                  <Col xxl={4} xs={24}>
                     <div className="table-toolbox-actions">
                       <Button size="small" type="secondary" transparented>
                         Export
@@ -205,9 +215,9 @@ const Orders = () => {
                         <FeatherIcon icon="plus" size={12} /> Add Order
                       </Button>
                     </div>
-                  </Col> */}
+                  </Col>
                 </Row>
-              </TopToolBox>
+              </TopToolBox> */}
             </Col>
           </Row>
           <Row gutter={15}>

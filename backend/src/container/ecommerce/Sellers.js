@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { TopToolBox } from './Style';
@@ -11,14 +11,23 @@ import { Cards } from '../../components/cards/frame/cards-frame';
 import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
 import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
 import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
+import { sellerFilter } from '../../redux/sellers/actionCreator';
+import { updateUser } from '../../api';
 
 const Sellers = () => {
   const { searchData, sellers } = useSelector(state => {
     return {
       searchData: state.headerSearchData,
-      sellers: state.sellers,
+      sellers: state.sellers.data,
     };
   });
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(sellerFilter());
+  }, []);
+
+  console.log(sellers);
   const [state, setState] = useState({
     notData: searchData,
     item: sellers,
@@ -41,32 +50,43 @@ const Sellers = () => {
     });
   };
   const dataSource = [];
-  if (sellers.length)
-    item.map(value => {
-      const { storeName, id, name, product, amount, date, img } = value;
+  if (sellers?.length)
+    item?.map(value => {
+      const { firstName, lastName, _id, email, balance, verified, date, img } = value;
       return dataSource.push({
-        key: id,
+        key: _id,
         name: (
           <div className="seller-info">
             <>
               <img src={img} alt="" />
-              {name}
+              {firstName} {lastName}
             </>
           </div>
         ),
-        store: storeName,
-        product: <span className="product-id">{product}</span>,
-        amount,
-        date,
+        email,
+        // product: <span className="product-id">{product}</span>,
+        balance: balance ? balance : 0,
+        verified: verified ? 'VERIFIED' : 'NOT VERIFIED',
         action: (
           <div className="table-actions">
             <>
-              <Button className="btn-icon" type="info" to="#" shape="circle">
+              {verified ? (
+                ''
+              ) : (
+                <Button
+                  style={{ backgroundColor: 'red', color: 'white', marginLeft: '5px' }}
+                  onClick={() => updateUser({ ...value, verified: true })}
+                >
+                  Mark as Verified
+                </Button>
+              )}
+
+              {/* <Button className="btn-icon" type="info" to="#" shape="circle">
                 <FeatherIcon icon="edit" size={16} />
               </Button>
               <Button className="btn-icon" type="danger" to="#" shape="circle">
                 <FeatherIcon icon="trash-2" size={16} />
-              </Button>
+              </Button> */}
             </>
           </div>
         ),
@@ -78,25 +98,25 @@ const Sellers = () => {
       dataIndex: 'name',
       key: 'name',
     },
+    // {
+    //   title: 'Store',
+    //   dataIndex: 'store',
+    //   key: 'store',
+    // },
     {
-      title: 'Store',
-      dataIndex: 'store',
-      key: 'store',
-    },
-    {
-      title: 'Products',
-      dataIndex: 'product',
-      key: 'product',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
       title: 'Wallet Balance',
-      dataIndex: 'amount',
-      key: 'amount',
+      dataIndex: 'balance',
+      key: 'balance',
     },
     {
-      title: 'Create Date',
-      dataIndex: 'date',
-      key: 'date',
+      title: 'Verified',
+      dataIndex: 'verified',
+      key: 'verified',
     },
     {
       title: 'Action',
@@ -159,7 +179,7 @@ const Sellers = () => {
                   rowSelection={rowSelection}
                   dataSource={dataSource}
                   columns={columns}
-                  pagination={{ pageSize: 7, showSizeChanger: true, total: sellers.length }}
+                  pagination={{ pageSize: 7, showSizeChanger: true, total: sellers?.length }}
                 />
               </TableWrapper>
             </Col>

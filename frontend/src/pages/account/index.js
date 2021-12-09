@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
-import { Container, Row, Col } from "react-bootstrap";
-import { FaCloudDownloadAlt, FaRegEdit } from "react-icons/fa";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { FaCloudDownloadAlt, FaFileUpload, FaRegEdit } from "react-icons/fa";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import Cookies from "js-cookie";
@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../../redux/profile/actionCreator";
 import { logOut } from "../../redux/authentication/actionCreator";
-import { cancelOffer, getOffers, paypalUpdate } from "../../api";
+import { cancelOffer, getOffers, newTicket, paypalUpdate } from "../../api";
+import FileBase from "react-file-base64";
 
 const MyAccount = () => {
   // const [check, setCheck] = useState(false);
@@ -20,6 +21,8 @@ const MyAccount = () => {
   const router = useRouter();
   const profile = useSelector((state) => state.profile.profile);
   const [offers, setOffers] = useState([]);
+
+  const [IDimage, setIDimage] = useState();
 
   const dispatch = useDispatch();
 
@@ -72,6 +75,15 @@ const MyAccount = () => {
       .catch((err) => console.log(err));
   };
 
+  const handleID = (e) => {
+    e.preventDefault();
+
+    if (IDimage) {
+      newTicket({ userID: profile._id, image: IDimage, status: "IN-PROGRESS" })
+        .then(({ data }) => console.log(data))
+        .catch((err) => console.log(err));
+    }
+  };
   return (
     <LayoutTwo>
       {/* breadcrumb */}
@@ -146,6 +158,21 @@ const MyAccount = () => {
                     your recent offers, manage your shipping and billing
                     addresses and edit your password and account details.
                   </p>
+                  <p className="saved-message">
+                    <h3>Verify</h3>
+                    <h3>
+                      Status: {profile.verified ? "VERIFIED" : "UN-VERIFIED"}
+                    </h3>
+                    <p>Upload Image of your ID card to get yourself verified</p>
+
+                    <FileBase
+                      type="file"
+                      multiple={false}
+                      onDone={({ base64 }) => setIDimage(base64)}
+                    />
+
+                    <Button onClick={handleID}>Click to Upload</Button>
+                  </p>
                 </div>
               </Tab.Pane>
               <Tab.Pane eventKey="orders">
@@ -167,9 +194,7 @@ const MyAccount = () => {
                           <tr key={offer._id}>
                             <td>{index + 1}</td>
                             <td>{offer.timestamp}</td>
-                            <td>
-                              {offer.cancel ? "CANCELLEDS" : offer.status}
-                            </td>
+                            <td>{offer.cancel ? "CANCELLED" : offer.status}</td>
                             <td>{offer.amount}</td>
                             <td>
                               {getTimeDifferce(

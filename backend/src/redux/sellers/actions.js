@@ -3,20 +3,20 @@ const actions = {
   SELLER_SUCCESS: 'SELLER_SUCCESS',
   SELLER_ERR: 'SELLER_ERR',
 
-  filterOrderBegin: () => {
+  sellerBegin: () => {
     return {
       type: actions.SELLER_BEGIN,
     };
   },
 
-  filterOrderSuccess: data => {
+  sellerSuccess: data => {
     return {
       type: actions.SELLER_SUCCESS,
       data,
     };
   },
 
-  filterOrderErr: err => {
+  sellerErr: err => {
     return {
       type: actions.SELLER_ERR,
       err,

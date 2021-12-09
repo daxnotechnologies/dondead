@@ -24,12 +24,14 @@ import Contact from './contact/reducers';
 import Profile from './profile/reducers';
 import Calender from './calendar/reducers';
 import FileManager from './fileManager/reducers';
+import tickets from './tickets/reducers';
 
 const rootReducers = combineReducers({
   themeUsers: themeUsersReducer,
   headerSearchData: headerSearchReducer,
   // message: readMessageReducer,
   // notification: readNotificationReducer,
+  tickets,
   orders: orderReducer,
   sellers: sellersReducer,
   users: userReducer,

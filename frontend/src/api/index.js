@@ -1,13 +1,13 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-// const API = axios.create({
-//   baseURL: "http://localhost:8080/",
-// });
-
 const API = axios.create({
-  baseURL: "https://dondead-server.uc.r.appspot.com/",
+  baseURL: "http://localhost:8080/",
 });
+
+// const API = axios.create({
+//   baseURL: "https://dondead-server.uc.r.appspot.com/",
+// });
 
 API.interceptors.request.use((req) => {
   if (Cookies.get("token")) {
@@ -39,3 +39,5 @@ export const getOffers = (offererID) =>
 
 export const cancelOffer = (offer) => API.post("offer/cancel", offer);
 export const paypalUpdate = (user) => API.patch("user/update", user);
+
+export const newTicket = (ticket) => API.post("ticket/post", ticket);

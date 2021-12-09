@@ -9,11 +9,15 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { newOffer } from "../../api";
 import { useRouter } from "next/router";
 import { deleteAllFromCart } from "../../redux/actions/cartActions";
+import { useState } from "react";
 
 const Checkout = ({ cartItems }) => {
   let cartTotalPrice = 0;
   let shippingFee = 0;
+  let grandTotal = 0;
   const profile = useSelector((state) => state.profile.profile);
+  const [vat, setVat] = useState(false);
+  const [vatCharge, setVatCharge] = useState(0);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -21,6 +25,14 @@ const Checkout = ({ cartItems }) => {
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
   });
+
+  useEffect(() => {
+    if (vat) {
+      setVatCharge(cartTotalPrice * 0.19);
+    } else {
+      setVatCharge(0);
+    }
+  }, [vat]);
 
   const setShippingFee = (size) => {
     // console.log(cart);
@@ -34,9 +46,13 @@ const Checkout = ({ cartItems }) => {
   };
 
   const adjustPrice = (total, fee) => {
-    cartTotalPrice = total - fee;
+    if (vat) {
+      grandTotal = total + vatCharge - fee;
+    } else {
+      grandTotal = total - fee;
+    }
 
-    return cartTotalPrice;
+    return grandTotal;
   };
 
   const handleCheckout = (e) => {
@@ -44,7 +60,7 @@ const Checkout = ({ cartItems }) => {
     const products = cartItems.map((product) => product);
     const offererID = profile._id;
     const status = "NOT DELIVERED";
-    const amount = cartTotalPrice;
+    const amount = grandTotal;
     // console.log(amount);
     newOffer({ products, offererID, status, amount })
       .then(({ data }) => {
@@ -190,6 +206,9 @@ const Checkout = ({ cartItems }) => {
                                 Shipping Fee{" "}
                                 <span>{setShippingFee(cartItems.length)}</span>
                               </p>
+                              <p>
+                                VAT Charge <span>{vatCharge}</span>
+                              </p>
                               <h4>
                                 Grand Total{" "}
                                 <span>
@@ -206,6 +225,16 @@ const Checkout = ({ cartItems }) => {
                           <div className="col-12">
                             {/* <h4 className="checkout-title">Payment Method</h4> */}
                             <div className="checkout-payment-method">
+                              <div className="single-method">
+                                <input
+                                  type="checkbox"
+                                  id="vat_check"
+                                  onChange={(e) => setVat(e.target.checked)}
+                                />
+                                <label htmlFor="vat_check">
+                                  Check if you are VAT customer
+                                </label>
+                              </div>
                               {/* <div className="single-method">
                                 <input
                                   type="radio"
@@ -260,7 +289,11 @@ const Checkout = ({ cartItems }) => {
                                 </label>
                               </div> */}
                               <div className="single-method">
-                                <input type="checkbox" id="accept_terms" />
+                                <input
+                                  type="checkbox"
+                                  id="accept_terms"
+                                  required
+                                />
                                 <label htmlFor="accept_terms">
                                   I’ve read and accept the terms &amp;
                                   conditions
@@ -294,7 +327,7 @@ const Checkout = ({ cartItems }) => {
                     </p>
                     <Link
                       href="/shop/left-sidebar"
-                      as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
+                      as={process.env.PUBLIC_URL + "/shop"}
                     >
                       <a className="lezada-button lezada-button--medium">
                         Shop Now
