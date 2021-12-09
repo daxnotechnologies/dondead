@@ -26,7 +26,9 @@ export const newOffer = async (req, res) => {
       cancel: false,
     });
 
-    const user = await User.find({ email: offers.offererID });
+    const user = await User.findById(offers.offererID);
+
+    // console.log(user);
 
     await User.findByIdAndUpdate(offers.offererID, {
       ...user,
@@ -52,7 +54,7 @@ export const newOffer = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong." });
+    res.status(500).json({ message: "Something went wrong.", error });
   }
 };
 
