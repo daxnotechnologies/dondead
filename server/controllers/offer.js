@@ -10,7 +10,7 @@ var transporter = createTransport({
   auth: {
     // type: "OAuth2",
     user: "testfirebaseorfik@gmail.com",
-    pass: "Orfik123@",
+    pass: "orfik123@",
   },
 });
 

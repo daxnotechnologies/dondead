@@ -8,6 +8,7 @@ import userRoute from "./routes/user.js";
 import adminRoute from "./routes/admin.js";
 import productRoute from "./routes/product.js";
 import offerRoute from "./routes/offer.js";
+import ticketRoute from "./routes/ticket.js";
 
 const app = express();
 dotenv.config();
@@ -26,6 +27,7 @@ app.use("/user", userRoute);
 app.use("/admin", adminRoute);
 app.use("/product", productRoute);
 app.use("/offer", offerRoute);
+app.use("/ticket", ticketRoute);
 
 const PORT = process.env.PORT || 8080;
 
