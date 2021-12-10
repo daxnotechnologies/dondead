@@ -46,7 +46,7 @@ const ProductGridWrapper = ({
 
           return (
             <ProductGrid
-              key={product.id}
+              key={product._id}
               product={product}
               discountedPrice={discountedPrice}
               productPrice={productPrice}

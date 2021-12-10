@@ -10,8 +10,12 @@ const fetchProductsSuccess = (products) => ({
 // fetch products
 const fetchProducts = () => {
   return async (dispatch) => {
-    const { data } = await getAllProduct();
-    dispatch(fetchProductsSuccess(data));
+    try {
+      const { data } = await getAllProduct();
+      dispatch(fetchProductsSuccess(data));
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 
