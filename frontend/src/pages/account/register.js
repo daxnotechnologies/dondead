@@ -12,12 +12,15 @@ const Register = () => {
   const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [vatID, setVatID] = useState("");
+
+  const [vat, setVat] = useState();
 
   const router = useRouter();
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    signup({ firstName, lastName, email, password }).then((response) => {
+    signup({ firstName, lastName, email, password, vatID }).then((response) => {
       console.log("response=", response.data.message);
       if (response.data.message === true) {
         console.log("token: ", response.data.token);
@@ -117,6 +120,33 @@ const Register = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </Col>
+
+                    <Col lg={12} className="space-mb--50 single-method">
+                      <input
+                        type="checkbox"
+                        id="vat_check"
+                        onChange={(e) => setVat(e.target.checked)}
+                      />
+                      <label htmlFor="vat_check">Are you a VAT user?</label>
+                    </Col>
+                    {vat ? (
+                      <Col lg={12} className="space-mb--50">
+                        <label htmlFor="vat">
+                          VAT ID <span className="required">*</span>{" "}
+                        </label>
+                        <input
+                          name="vat_id"
+                          type="text"
+                          id="regPassword"
+                          required
+                          value={vatID}
+                          onChange={(e) => setVatID(e.target.value)}
+                        />
+                      </Col>
+                    ) : (
+                      ""
+                    )}
+
                     <Col lg={12} className="text-center">
                       <button
                         className="lezada-button lezada-button--medium"

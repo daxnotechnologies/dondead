@@ -1,4 +1,4 @@
-import { addProduct, getAllProduct, getProduct } from '../../api';
+import { addProduct, getAllProduct, getProduct, updateProduct } from '../../api';
 import actions from './actions';
 // import initialState from '../../demoData/products.json';
 
@@ -21,6 +21,18 @@ const singleProduct = slug => {
     try {
       dispatch(singleProductBegin());
       const { data } = await getProduct(slug);
+      dispatch(singleProductSuccess(data));
+    } catch (err) {
+      dispatch(singleProductErr(err));
+    }
+  };
+};
+
+export const editProduct = product => {
+  return async dispatch => {
+    try {
+      dispatch(singleProductBegin());
+      const { data } = await updateProduct(product);
       dispatch(singleProductSuccess(data));
     } catch (err) {
       dispatch(singleProductErr(err));

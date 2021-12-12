@@ -34,13 +34,15 @@ const ProductDetails = ({ match }) => {
         title="Product Details"
         buttons={[
           <div key="1" className="page-header-actions">
-            <CalendarButtonPageHeader key="1" />
+            {/* <CalendarButtonPageHeader key="1" />
             <ExportButtonPageHeader key="2" />
-            <ShareButtonPageHeader key="3" />
-            <Button size="small" key="4" type="primary">
-              <FeatherIcon icon="plus" size={14} />
-              Add New
-            </Button>
+            <ShareButtonPageHeader key="3" /> */}
+            <Link to={`${match.url}/edit-product`}>
+              <Button size="small" key="4" type="primary">
+                <FeatherIcon icon="edit-3" size={14} />
+                Edit Product
+              </Button>
+            </Link>
           </div>,
         ]}
       />

@@ -248,6 +248,9 @@ const AddProduct = () => {
                             <Col xs={24}>
                               <div className="add-product-content">
                                 <Cards title="Product Image">
+                                  <figure>
+                                    <img style={{ width: '100%' }} src={img ? img : ''} alt="" />
+                                  </figure>
                                   <Form.Item label="Image" name="image">
                                     <FileBase type="file" multiple={false} onDone={({ base64 }) => setImg(base64)}>
                                       <UploadOutlined />

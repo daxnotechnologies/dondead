@@ -26,6 +26,18 @@ export const addNewProduct = async (req, res) => {
   }
 };
 
+export const updateProduct = async (req, res) => {
+  const prod = req.body;
+
+  try {
+    const product = await Product.findByIdAndUpdate(prod._id, prod);
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const getProduct = async (req, res) => {
   const { slug } = req.query;
 

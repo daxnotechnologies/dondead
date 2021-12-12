@@ -29,12 +29,12 @@ const login = (loginForm, history) => {
   };
 };
 
-const logOut = () => {
+const logOut = (history) => {
   return async (dispatch) => {
     try {
       dispatch(logoutBegin());
       Cookies.remove("token");
-      //history.push('/');
+      history.push("/");
       dispatch(logoutSuccess(null));
     } catch (err) {
       dispatch(logoutErr(err));

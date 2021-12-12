@@ -18,8 +18,9 @@ const EcommerceRoute = () => {
     <Switch>
       <Route path={`${path}/products`} component={Product} />
       <Route exact path={`${path}/add-product`} component={ProductAdd} />
-      <Route exact path={`${path}/edit-product`} component={ProductEdit} />
+      {/* <Route exact path={`${path}/edit-product`} component={ProductEdit} /> */}
       <Route exact path={`${path}/productDetails/:slug`} component={ProductDetails} />
+      <Route exact path={`${path}/productDetails/:slug/edit-product`} component={ProductEdit} />
       <Route exact path={`${path}/invoice`} component={Invoice} />
       <Route exact path={`${path}/orders`} component={Orders} />
       <Route exact path={`${path}/sellers`} component={Sellers} />

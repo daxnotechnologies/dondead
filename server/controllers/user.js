@@ -42,7 +42,7 @@ export const login = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, vatID } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -59,6 +59,7 @@ export const signup = async (req, res) => {
       lastName,
       email,
       password: hashedPassword,
+      vatID,
       balance: 0,
       coins: 0,
       verified: false,
@@ -88,6 +89,7 @@ export const getProfile = async (req, res) => {
       paypal,
       bankDetails,
       verified,
+      vatID,
     } = await User.findById(req.userId);
 
     res.status(200).json({
@@ -100,6 +102,7 @@ export const getProfile = async (req, res) => {
       paypal,
       bankDetails,
       verified,
+      vatID,
     });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong." });

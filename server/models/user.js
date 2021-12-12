@@ -10,6 +10,7 @@ const userSchema = mongoose.Schema({
   bankDetails: { type: String },
   verified: { type: Boolean, required: false },
   coins: { type: Number, required: false },
+  vatID: { type: String },
 });
 
 export default mongoose.model("User", userSchema);

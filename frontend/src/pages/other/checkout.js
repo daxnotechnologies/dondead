@@ -19,12 +19,23 @@ const Checkout = ({ cartItems }) => {
   const [vat, setVat] = useState(false);
   const [vatCharge, setVatCharge] = useState(0);
 
+  const [extra, setExtra] = useState(false);
+  const [extraCharge, setExtraCharge] = useState(0);
+
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
   });
+
+  useEffect(() => {
+    if (extra) {
+      setExtraCharge(cartTotalPrice * 0.075);
+    } else {
+      setExtraCharge(0);
+    }
+  }, [extra]);
 
   useEffect(() => {
     if (vat) {
@@ -46,11 +57,7 @@ const Checkout = ({ cartItems }) => {
   };
 
   const adjustPrice = (total, fee) => {
-    if (vat) {
-      grandTotal = total + vatCharge - fee;
-    } else {
-      grandTotal = total - fee;
-    }
+    grandTotal = total + vatCharge + extraCharge - fee;
 
     return grandTotal;
   };
@@ -206,8 +213,16 @@ const Checkout = ({ cartItems }) => {
                                 Shipping Fee{" "}
                                 <span>{setShippingFee(cartItems.length)}</span>
                               </p>
+
+                              {profile.vatID ? (
+                                <p>
+                                  VAT Charge <span>{vatCharge}</span>
+                                </p>
+                              ) : (
+                                ""
+                              )}
                               <p>
-                                VAT Charge <span>{vatCharge}</span>
+                                Extra Payout <span>{extraCharge}</span>
                               </p>
                               <h4>
                                 Grand Total{" "}
@@ -228,13 +243,29 @@ const Checkout = ({ cartItems }) => {
                               <div className="single-method">
                                 <input
                                   type="checkbox"
-                                  id="vat_check"
-                                  onChange={(e) => setVat(e.target.checked)}
+                                  id="extra_check"
+                                  onChange={(e) => setExtra(e.target.checked)}
                                 />
-                                <label htmlFor="vat_check">
-                                  Check if you are VAT customer
+                                <label htmlFor="extra_check">
+                                  7.5% mehr auszahlung
                                 </label>
                               </div>
+
+                              {profile.vatID ? (
+                                <div className="single-method">
+                                  <input
+                                    type="checkbox"
+                                    id="vat_check"
+                                    onChange={(e) => setVat(e.target.checked)}
+                                  />
+                                  <label htmlFor="vat_check">
+                                    Check if you are VAT customer
+                                  </label>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+
                               {/* <div className="single-method">
                                 <input
                                   type="radio"
