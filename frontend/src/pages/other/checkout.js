@@ -69,7 +69,7 @@ const Checkout = ({ cartItems }) => {
     const status = "NOT DELIVERED";
     const amount = grandTotal;
     // console.log(amount);
-    newOffer({ products, offererID, status, amount })
+    newOffer({ products, offererID, status, amount, extraPayout: extra })
       .then(({ data }) => {
         console.log(data);
         dispatch(deleteAllFromCart());

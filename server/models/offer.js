@@ -7,6 +7,7 @@ const offerSchema = mongoose.Schema({
   status: { type: String, required: true },
   timestamp: { type: Date, required: true },
   cancel: { type: Boolean, required: true },
+  extraPayout: { type: Boolean, required: true },
 });
 
 export default mongoose.model("Offer", offerSchema);
