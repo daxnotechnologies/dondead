@@ -34,10 +34,10 @@ const Checkout = ({ cartItems }) => {
   });
 
   useEffect(() => {
-    if (profile.coins > 100000) {
-      setCoinsExtraCharge(cartTotalPrice * 0.001);
-    } else if (profile.coins > 500000) {
-      setCoinsExtraCharge(cartTotalPrice * 0.002);
+    if (profile.coins > 500000) {
+      setCoinsExtraCharge(cartTotalPrice * 0.02);
+    } else if (profile.coins > 100000) {
+      setCoinsExtraCharge(cartTotalPrice * 0.01);
     } else {
       setCoinsExtraCharge(0);
     }
