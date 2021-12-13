@@ -30,11 +30,16 @@ export const newOffer = async (req, res) => {
 
     // console.log(user);
 
-    await User.findByIdAndUpdate(offers.offererID, {
-      ...user,
-      balance: user.balance + offers.amount,
-      coins: user.coins + offer.amount * 10,
-    });
+    const s = await User.findByIdAndUpdate(
+      offers.offererID,
+      {
+        balance: user.balance + offers.amount,
+        coins: (user.coins ? user.coins : 0) + offer.amount * 10,
+      },
+      { new: true }
+    );
+
+    console.log(s);
 
     var mailOptions = {
       from: "testfirebaseorfik@gmail.com",

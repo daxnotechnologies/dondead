@@ -22,12 +22,32 @@ const Checkout = ({ cartItems }) => {
   const [extra, setExtra] = useState(false);
   const [extraCharge, setExtraCharge] = useState(0);
 
+  const [coinsExtraCharge, setCoinsExtraCharge] = useState(0);
+
+  const [earlyPayout, setEarlyPayout] = useState(false);
+
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
   });
+
+  useEffect(() => {
+    if (profile.coins > 100000) {
+      setCoinsExtraCharge(cartTotalPrice * 0.001);
+    } else if (profile.coins > 500000) {
+      setCoinsExtraCharge(cartTotalPrice * 0.002);
+    } else {
+      setCoinsExtraCharge(0);
+    }
+
+    if (profile.coins > 250000) {
+      setEarlyPayout(true);
+    } else {
+      setEarlyPayout(false);
+    }
+  }, [profile.coins]);
 
   useEffect(() => {
     if (extra) {
@@ -47,7 +67,7 @@ const Checkout = ({ cartItems }) => {
 
   const setShippingFee = (size) => {
     // console.log(cart);
-    if (size == 1) {
+    if (size == 1 && profile.coins < 25000) {
       shippingFee = 5.0;
     } else {
       shippingFee = 0.0;
@@ -57,7 +77,7 @@ const Checkout = ({ cartItems }) => {
   };
 
   const adjustPrice = (total, fee) => {
-    grandTotal = total + vatCharge + extraCharge - fee;
+    grandTotal = total + vatCharge + extraCharge + coinsExtraCharge - fee;
 
     return grandTotal;
   };
@@ -69,7 +89,14 @@ const Checkout = ({ cartItems }) => {
     const status = "NOT DELIVERED";
     const amount = grandTotal;
     // console.log(amount);
-    newOffer({ products, offererID, status, amount, extraPayout: extra })
+    newOffer({
+      products,
+      offererID,
+      status,
+      amount,
+      extraPayout: extra,
+      earlyPayout,
+    })
       .then(({ data }) => {
         console.log(data);
         dispatch(deleteAllFromCart());
@@ -223,6 +250,17 @@ const Checkout = ({ cartItems }) => {
                               )}
                               <p>
                                 Extra Payout <span>{extraCharge}</span>
+                              </p>
+
+                              <p>
+                                Coins Extra Payout{" "}
+                                <span>{coinsExtraCharge}</span>
+                              </p>
+                              <p>
+                                Early Payout{" "}
+                                <span>
+                                  {earlyPayout ? "Available" : "Not Available"}
+                                </span>
                               </p>
                               <h4>
                                 Grand Total{" "}

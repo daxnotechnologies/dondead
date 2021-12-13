@@ -12,7 +12,7 @@ const NotFound = () => {
         style={{
           backgroundImage: `url(${
             process.env.PUBLIC_URL + "/assets/images/backgrounds/404-bg.jpg"
-          })`
+          })`,
         }}
       >
         <Container>

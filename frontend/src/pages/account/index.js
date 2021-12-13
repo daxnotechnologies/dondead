@@ -26,6 +26,51 @@ const MyAccount = () => {
 
   const dispatch = useDispatch();
 
+  const perks = (coins) => {
+    if (coins > 500000) {
+      return (
+        <p className="saved-message">
+          Level 5 <br /> LVL 4 + 2% more payout on all sales
+        </p>
+      );
+    } else if (coins > 250000) {
+      return (
+        <p className="saved-message">
+          Level 4 <br /> LVL 3 + payment after dispatch of the goods (after
+          dispatch, send the tracking number + sales number by email to
+          <a href="mailto:help@dondead.com">help@dondead.com</a>)
+        </p>
+      );
+    } else if (coins > 100000) {
+      return (
+        <p className="saved-message">
+          Level 3 <br /> LVL 2 + 1% more payout on all sales
+        </p>
+      );
+    } else if (coins > 25000) {
+      return (
+        <p className="saved-message">
+          Level 2 <br /> Free shipping on all sales within Germany
+        </p>
+      );
+    } else if (coins > 15000) {
+      return (
+        <p className="saved-message">
+          Level 1 <br /> No Perks
+        </p>
+      );
+    } else {
+      return (
+        <p className="saved-message">
+          <span style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
+            Level 0{" "}
+          </span>{" "}
+          <br /> No Perks
+        </p>
+      );
+    }
+  };
+
   if (!Cookies.get("token")) {
     router.push("account/login");
   } else {
@@ -84,6 +129,23 @@ const MyAccount = () => {
         .catch((err) => console.log(err));
     }
   };
+
+  const getLevel = (coins) => {
+    if (coins > 500000) {
+      return 5;
+    } else if (coins > 250000) {
+      return 4;
+    } else if (coins > 100000) {
+      return 3;
+    } else if (coins > 25000) {
+      return 2;
+    } else if (coins > 15000) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <LayoutTwo>
       {/* breadcrumb */}
@@ -219,7 +281,7 @@ const MyAccount = () => {
                   </div>
                 </div>
               </Tab.Pane>
-              <Tab.Pane eventKey="download">
+              {/* <Tab.Pane eventKey="download">
                 <div className="my-account-area__content">
                   <h3>Downloads</h3>
                   <div className="myaccount-table table-responsive text-center">
@@ -257,17 +319,18 @@ const MyAccount = () => {
                     </table>
                   </div>
                 </div>
-              </Tab.Pane>
+              </Tab.Pane> */}
 
               <Tab.Pane eventKey="coins">
                 <div className="my-account-area__content">
                   <h3>DONDEAD COINS</h3>
                   <h5 style={{ paddingBottom: "20px" }}>
+                    Level: {getLevel(profile.coins)}
+                  </h5>
+                  <h5 style={{ paddingBottom: "20px" }}>
                     Available coins: {profile.coins ? profile.coins : 0}
                   </h5>
-                  {/* <p className="saved-message">
-                    You Can't Saved Your Payment Method yet.
-                  </p> */}
+                  {perks(profile.coins)}
                 </div>
               </Tab.Pane>
 
