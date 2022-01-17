@@ -86,11 +86,11 @@ const ShoppingCart = () => {
                           </Cards>
                         }
                       >
-                        <Route
+                        {/* <Route
                           path={`${path}/checkout`}
                           render={() => <Checkout onCurrentChange={onHandleCurrent} />}
                         />
-                        <Route exact path={path} component={CartTable} />
+                        <Route exact path={path} component={CartTable} /> */}
                       </Suspense>
                     </Switch>
                   </Col>
@@ -102,7 +102,7 @@ const ShoppingCart = () => {
                         </Cards>
                       }
                     >
-                      <Ordersummary subtotal={subtotal} isExact={isExact} path={path} />
+                      {/* <Ordersummary subtotal={subtotal} isExact={isExact} path={path} /> */}
                     </Suspense>
                   </Col>
                 </Row>

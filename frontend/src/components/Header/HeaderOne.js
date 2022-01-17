@@ -51,6 +51,9 @@ const HeaderOne = ({ aboutOverlay, cartItems, wishlistItems }) => {
       >
         <Container className="wide">
           <div className="header-content d-flex align-items-center justify-content-between position-relative space-py-mobile-only--30">
+            {/* navigation */}
+            <Navigation />
+
             {/* logo */}
             <div className="header-content__logo d-flex align-items-center space-pr--15">
               <button
@@ -66,7 +69,7 @@ const HeaderOne = ({ aboutOverlay, cartItems, wishlistItems }) => {
                     : "about-overlay-trigger d-none d-lg-block"
                 }`}
               >
-                <IoIosMenu />
+                {/* <IoIosMenu /> */}
               </button>
               <Link href="/" as={process.env.PUBLIC_URL + "/"}>
                 <a>
@@ -75,14 +78,12 @@ const HeaderOne = ({ aboutOverlay, cartItems, wishlistItems }) => {
                       process.env.PUBLIC_URL + "/assets/images/xxx_125x@2x.png"
                     }
                     className="img-fluid"
+                    style={{ width: "180px", marginRight: "180px" }}
                     alt=""
                   />
                 </a>
               </Link>
             </div>
-
-            {/* navigation */}
-            <Navigation />
 
             {/* icons */}
             <div className="header-content__icons space-pl--15">

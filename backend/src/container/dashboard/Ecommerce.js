@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from 'react';
-import { Row, Col, Skeleton } from 'antd';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import { Row, Col, Skeleton, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { CardBarChart2, EChartCard } from './style';
 import { PageHeader } from '../../components/page-headers/page-headers';
@@ -11,12 +11,18 @@ import { ChartjsBarChartTransparent } from '../../components/charts/chartjs';
 import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
 import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
 import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
+import { useDispatch, useSelector } from 'react-redux';
+import { orderFilter } from '../../redux/orders/actionCreator';
+import moment from 'moment';
+import { sellerFilter } from '../../redux/sellers/actionCreator';
 
 const TotalRevenue = lazy(() => import('./overview/ecommerce/TotalRevenue'));
 const RevenueGenerated = lazy(() => import('./overview/ecommerce/RevenueGenerated'));
 const TopSellingProduct = lazy(() => import('./overview/ecommerce/TopSellingProduct'));
 const SalesByLocation = lazy(() => import('./overview/ecommerce/SalesByLocation'));
 const RevenueByDevice = lazy(() => import('./overview/ecommerce/RevenueByDevice'));
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
 const chartOptions = {
   legend: {
@@ -52,6 +58,78 @@ const chartOptions = {
 };
 
 const Ecommerce = () => {
+  const offers = useSelector(state => state.orders);
+  const sellers = useSelector(state => state.sellers);
+  const [offerHist, setOfferHist] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [revHist, setRevHist] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [revenue, setRevenue] = useState(0);
+  const [avgHist, setAvgHist] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [avgOffer, setAverageOffer] = useState(0);
+  const [seller, setSeller] = useState(0);
+  const [sellerHist, setSellerHist] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let r1 = 0;
+    revHist.map(r => {
+      r1 = r1 + r;
+    });
+    setRevenue(r1);
+
+    setAverageOffer((r1 / offers?.data?.length).toFixed(2));
+  }, [revHist]);
+
+  useEffect(() => {
+    if (sellers.data) {
+      let s = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+      sellers.data.map(sel => {
+        let m = moment(sel.timestamp)
+          .startOf('month')
+          .format('MMM');
+        let i = MONTHS.indexOf(m);
+        s[i] = s[i] + 1;
+      });
+
+      setSellerHist(s);
+      setSeller(sellers.data.length);
+    }
+  }, [sellers]);
+
+  useEffect(() => {
+    if (offers.data) {
+      let o = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      let rev = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+      offers.data.map(offer => {
+        var d = moment(new Date(new Date().getFullYear(), 0, 1));
+        if (moment(offer.timestamp).isAfter(d)) {
+          let m = moment(offer.timestamp)
+            .startOf('month')
+            .format('MMM');
+          let i = MONTHS.indexOf(m);
+          o[i] = o[i] + 1;
+          rev[i] = rev[i] + offer.amount;
+        }
+      });
+
+      setOfferHist(o);
+      setRevHist(rev);
+
+      const hist = revHist.map((reven, index) => {
+        return (reven / offerHist[index]).toFixed(2);
+      });
+
+      setAvgHist(hist);
+    }
+  }, [offers]);
+
+  useEffect(() => {
+    dispatch(orderFilter());
+    dispatch(sellerFilter());
+  }, []);
+
   return (
     <>
       <PageHeader
@@ -76,25 +154,25 @@ const Ecommerce = () => {
               <EChartCard>
                 <div className="card-chunk">
                   <CardBarChart2>
-                    <Heading as="h1">7,461</Heading>
-                    <span>Orders</span>
-                    <p>
+                    <Heading as="h1">{offers.loading ? <Spin /> : offers.data?.length}</Heading>
+                    <span>Offers</span>
+                    {/* <p>
                       <span className="growth-upward">
                         <FeatherIcon icon="arrow-up" /> 25%
                       </span>
                       <span>Since last week</span>
-                    </p>
+                    </p> */}
                   </CardBarChart2>
                 </div>
                 <div className="card-chunk">
                   <ChartjsBarChartTransparent
-                    labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']}
+                    labels={MONTHS}
                     datasets={[
                       {
-                        data: [20, 60, 50, 45, 50, 60, 70],
+                        data: offerHist,
                         backgroundColor: '#EFEFFE',
                         hoverBackgroundColor: '#5F63F2',
-                        label: 'Orders',
+                        label: 'Offers',
                         barPercentage: 1,
                       },
                     ]}
@@ -109,22 +187,22 @@ const Ecommerce = () => {
               <EChartCard>
                 <div className="card-chunk">
                   <CardBarChart2>
-                    <Heading as="h1">$28,947</Heading>
+                    <Heading as="h1">{offers.loading ? <Spin /> : `$ ${revenue}`}</Heading>
                     <span>Revenue</span>
-                    <p>
+                    {/* <p>
                       <span className="growth-downward">
                         <FeatherIcon icon="arrow-down" /> 25%
                       </span>
                       <span>Since last week</span>
-                    </p>
+                    </p> */}
                   </CardBarChart2>
                 </div>
                 <div className="card-chunk">
                   <ChartjsBarChartTransparent
-                    labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']}
+                    labels={MONTHS}
                     datasets={[
                       {
-                        data: [20, 60, 50, 45, 50, 60, 70],
+                        data: revHist,
                         backgroundColor: '#FFF0F6',
                         hoverBackgroundColor: '#FF69A5',
                         label: 'Revenue',
@@ -143,22 +221,22 @@ const Ecommerce = () => {
               <EChartCard>
                 <div className="card-chunk">
                   <CardBarChart2>
-                    <Heading as="h1">$3,241</Heading>
-                    <span>Avg. order value</span>
-                    <p>
+                    <Heading as="h1">{offers.loading ? <Spin /> : `$ ${avgOffer}`}</Heading>
+                    <span>Avg. offer value</span>
+                    {/* <p>
                       <span className="growth-upward">
                         <FeatherIcon icon="arrow-up" /> 25%
                       </span>
                       <span>Since last week</span>
-                    </p>
+                    </p> */}
                   </CardBarChart2>
                 </div>
                 <div className="card-chunk">
                   <ChartjsBarChartTransparent
-                    labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']}
+                    labels={MONTHS}
                     datasets={[
                       {
-                        data: [20, 60, 50, 45, 50, 60, 70],
+                        data: avgHist,
                         backgroundColor: '#E8FAF4',
                         hoverBackgroundColor: '#20C997',
                         label: 'Avg Orders',
@@ -176,22 +254,22 @@ const Ecommerce = () => {
               <EChartCard>
                 <div className="card-chunk">
                   <CardBarChart2>
-                    <Heading as="h1">45.2k</Heading>
-                    <span>Unique visitors</span>
-                    <p>
+                    <Heading as="h1">{sellers.loading ? <Spin /> : seller}</Heading>
+                    <span>Sellers</span>
+                    {/* <p>
                       <span className="growth-upward">
                         <FeatherIcon icon="arrow-up" /> 25%
                       </span>
                       <span>Since last week</span>
-                    </p>
+                    </p> */}
                   </CardBarChart2>
                 </div>
                 <div className="card-chunk">
                   <ChartjsBarChartTransparent
-                    labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']}
+                    labels={MONTHS}
                     datasets={[
                       {
-                        data: [20, 60, 50, 45, 50, 60, 70],
+                        data: sellerHist,
                         backgroundColor: '#E9F5FF',
                         hoverBackgroundColor: '#2C99FF',
                         label: 'Visitors',
@@ -215,10 +293,10 @@ const Ecommerce = () => {
                 </Cards>
               }
             >
-              <TotalRevenue />
+              <TotalRevenue revenue={revenue} revHist={revHist} />
             </Suspense>
           </Col>
-          <Col xxl={12} xs={24}>
+          {/* <Col xxl={12} xs={24}>
             <Suspense
               fallback={
                 <Cards headless>
@@ -228,8 +306,8 @@ const Ecommerce = () => {
             >
               <RevenueGenerated />
             </Suspense>
-          </Col>
-          <Col xxl={8} xs={24}>
+          </Col> */}
+          {/* <Col xxl={8} xs={24}>
             <Suspense
               fallback={
                 <Cards headless>
@@ -239,8 +317,8 @@ const Ecommerce = () => {
             >
               <TopSellingProduct />
             </Suspense>
-          </Col>
-          <Col xxl={8} md={12} xs={24}>
+          </Col> */}
+          {/* <Col xxl={8} md={12} xs={24}>
             <Suspense
               fallback={
                 <Cards headless>
@@ -250,8 +328,8 @@ const Ecommerce = () => {
             >
               <SalesByLocation />
             </Suspense>
-          </Col>
-          <Col xxl={8} md={12} xs={24}>
+          </Col> */}
+          {/* <Col xxl={8} md={12} xs={24}>
             <Suspense
               fallback={
                 <Cards headless>
@@ -261,7 +339,7 @@ const Ecommerce = () => {
             >
               <RevenueByDevice />
             </Suspense>
-          </Col>
+          </Col> */}
         </Row>
       </Main>
     </>

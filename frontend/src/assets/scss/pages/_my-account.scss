@@ -1,4 +1,3 @@
-
 /*=============================================
 =            my account            =
 =============================================*/
@@ -33,13 +32,12 @@
     }
   }
 
-
   &__content {
     padding: 30px;
 
     border: 1px solid $grey--ten;
 
-@include respond(large-mobile) {
+    @include respond(large-mobile) {
       padding: 20px 15px;
     }
 
@@ -97,6 +95,21 @@
           text-transform: capitalize;
         }
         input {
+          font-size: 13px;
+
+          width: 100%;
+          height: 50px;
+          padding: 2px 20px;
+
+          color: $black--two;
+          border: 1px solid $grey--nineteen;
+          background-color: transparent;
+          &:focus {
+            border: 1px solid $black--two;
+          }
+        }
+
+        select {
           font-size: 13px;
 
           width: 100%;
@@ -168,4 +181,3 @@
 }
 
 /*=====  End of my account  ======*/
-

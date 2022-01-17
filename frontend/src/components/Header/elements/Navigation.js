@@ -7,12 +7,12 @@ const Navigation = () => {
   return (
     <nav className="header-content__navigation space-pr--15 space-pl--15 d-none d-lg-block">
       <ul>
-        <li>
+        {/* <li>
           <Link href="/" as={process.env.PUBLIC_URL + "/"}>
             <a>HOME</a>
-          </Link>
-          {/* <IoIosArrowDown /> */}
-          {/* <ul className="sub-menu sub-menu--mega sub-menu--mega--column-5">
+          </Link> */}
+        {/* <IoIosArrowDown /> */}
+        {/* <ul className="sub-menu sub-menu--mega sub-menu--mega--column-5">
             <li className="sub-menu--mega__title">
               <Link href="/" as={process.env.PUBLIC_URL + "/"}>
                 <a>Home Group</a>
@@ -254,14 +254,14 @@ const Navigation = () => {
               </div>
             </li>
           </ul> */}
-        </li>
+        {/* </li>
         <li>
           <Link href="/shop" as={process.env.PUBLIC_URL + "/shop"}>
             <a>SHOP</a>
-          </Link>
-          {/* <IoIosArrowDown /> */}
+          </Link> */}
+        {/* <IoIosArrowDown /> */}
 
-          {/* <ul className="sub-menu sub-menu--mega sub-menu--mega--column-4">
+        {/* <ul className="sub-menu sub-menu--mega sub-menu--mega--column-4">
             <li className="sub-menu--mega__title">
               <Link
                 href="/shop/left-sidebar"
@@ -461,7 +461,7 @@ const Navigation = () => {
               </div>
             </li>
           </ul> */}
-        </li>
+        {/* </li> */}
         <li>
           <Link
             href="/shop?category=$dunk"

@@ -11,6 +11,8 @@ const userSchema = mongoose.Schema({
   verified: { type: Boolean, required: false },
   coins: { type: Number, required: false },
   vatID: { type: String },
+  billing: { type: Object },
+  timestamp: { type: Date, required: true },
 });
 
 export default mongoose.model("User", userSchema);

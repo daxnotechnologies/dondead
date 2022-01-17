@@ -20,13 +20,17 @@ export const newOffer = async (req, res) => {
   const offer = req.body;
 
   try {
+    const user = await User.findById(offer.offererID);
+
     const offers = await Offer.create({
       ...offer,
       timestamp: Date.now(),
       cancel: false,
+      status: "NOT SHIPPED",
+      offerer: `${user.firstName} ${user.lastName}`,
+      timeline: [],
+      paymentStatus: "NOT CLEARED",
     });
-
-    const user = await User.findById(offers.offererID);
 
     // console.log(user);
 
@@ -77,20 +81,23 @@ export const getProfileOffers = async (req, res) => {
 export const getOffers = async (req, res) => {
   try {
     let offers = await Offer.find();
-    offers = offers.map(async (offer) => {
-      const offerer = await User.findById(offer.offererID);
-      const g = {
-        _id: offer._id,
-        status: offer.status,
-        offererID: offer.offererID,
-        amount: offer.amount,
-        offerer: offerer.firstName,
-      };
+    // offers = offers.map(async (offer) => {
+    //   const offerer = await User.findById(offer.offererID);
+    //   const g = {
+    //     _id: offer._id,
+    //     status: offer.status,
+    //     offererID: offer.offererID,
+    //     amount: offer.amount,
+    //     timestamp: offer.timestamp,
+    //     offerer: `${offerer.firstName} ${offerer.lastName}`,
+    //   };
 
-      return g;
-    });
+    //   return g;
+    // });
 
-    offers = await Promise.all(offers);
+    // offers = await Promise.all(offers);
+
+    offers.reverse();
 
     res.status(200).json(offers);
   } catch (error) {
@@ -126,7 +133,19 @@ export const updateArrive = async (req, res) => {
   try {
     const { _id, offer } = req.body;
 
-    const u = await Offer.findByIdAndUpdate(_id, offer);
+    let timeline = [];
+
+    if (offer.timeline) {
+      timeline = offer.timeline;
+    }
+    timeline.push({
+      message: "The offer was marked as completed.",
+      date: Date.now(),
+    });
+
+    console.log(timeline);
+
+    const u = await Offer.findByIdAndUpdate(_id, { ...offer, timeline });
 
     const { email } = await User.findById(u.offererID);
 
@@ -147,6 +166,7 @@ export const updateArrive = async (req, res) => {
       }
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Something went wrong." });
   }
 };
@@ -155,7 +175,19 @@ export const updateVerified = async (req, res) => {
   try {
     const { _id, offer } = req.body;
 
-    const u = await Offer.findByIdAndUpdate(_id, offer);
+    let timeline = [];
+
+    if (offer.timeline) {
+      timeline = offer.timeline;
+    }
+    timeline.push({
+      message: "The offer was marked as verified.",
+      date: Date.now(),
+    });
+
+    console.log(timeline);
+
+    const u = await Offer.findByIdAndUpdate(_id, { ...offer, timeline });
 
     const { email } = await User.findById(u.offererID);
 
@@ -175,6 +207,98 @@ export const updateVerified = async (req, res) => {
         console.log("Email sent: " + info.response);
       }
     });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
+export const updateOffer = async (req, res) => {
+  try {
+    const { _id, offer } = req.body;
+
+    let timeline = [];
+
+    if (offer.timeline) {
+      timeline = offer.timeline;
+    }
+    timeline.push({
+      message: "The offer was updated.",
+      date: Date.now(),
+    });
+
+    const u = await Offer.findByIdAndUpdate(_id, { ...offer, timeline });
+
+    const { email } = await User.findById(u.offererID);
+
+    var mailOptions = {
+      from: "testfirebaseorfik@gmail.com",
+      to: email,
+      subject: "Offer Verified",
+      text: "The offer you sent has been updated",
+    };
+
+    res.status(200);
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
+export const updatePayment = async (req, res) => {
+  try {
+    const { _id, offer } = req.body;
+
+    let timeline = [];
+
+    if (offer.timeline) {
+      timeline = offer.timeline;
+    }
+    timeline.push({
+      message: "The payment was cleared for this offer.",
+      date: Date.now(),
+    });
+
+    console.log(timeline);
+
+    const u = await Offer.findByIdAndUpdate(_id, { ...offer, timeline });
+
+    const { email } = await User.findById(u.offererID);
+
+    var mailOptions = {
+      from: "testfirebaseorfik@gmail.com",
+      to: email,
+      subject: "Offer Verified",
+      text: "The offer you sent has been verified",
+    };
+
+    res.status(200);
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
+export const getOneOffer = async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const offer = await Offer.findById(id);
+
+    res.status(200).json(offer);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong." });
   }

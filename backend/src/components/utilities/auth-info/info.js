@@ -22,8 +22,6 @@ const AuthInfo = () => {
   });
   const { flag } = state;
 
-  console.log(profile);
-
   useEffect(() => {
     dispatch(getProfileRed());
   }, []);

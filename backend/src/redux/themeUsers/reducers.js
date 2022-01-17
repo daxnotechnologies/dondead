@@ -19,7 +19,6 @@ const themeUsersReducer = (state = initialState, action) => {
         loading: true,
       };
     case THEME_USER_SUCCESS:
-      console.log(data);
       return {
         ...state,
         ...data,

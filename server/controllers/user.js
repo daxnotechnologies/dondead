@@ -63,6 +63,7 @@ export const signup = async (req, res) => {
       balance: 0,
       coins: 0,
       verified: false,
+      timestamp: Date.now(),
     });
 
     const token = jwt.sign(
@@ -90,6 +91,8 @@ export const getProfile = async (req, res) => {
       bankDetails,
       verified,
       vatID,
+      billing,
+      timestamp,
     } = await User.findById(req.userId);
 
     res.status(200).json({
@@ -103,7 +106,64 @@ export const getProfile = async (req, res) => {
       bankDetails,
       verified,
       vatID,
+      billing,
+      timestamp,
     });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
+export const getProfilebyAdmin = async (req, res) => {
+  const { id } = req.query;
+
+  try {
+    const {
+      _id,
+      firstName,
+      lastName,
+      email,
+      balance,
+      coins,
+      paypal,
+      bankDetails,
+      verified,
+      vatID,
+      billing,
+      timestamp,
+    } = await User.findById(id);
+
+    res.status(200).json({
+      _id,
+      firstName,
+      lastName,
+      email,
+      balance,
+      coins,
+      paypal,
+      bankDetails,
+      verified,
+      vatID,
+      billing,
+      timestamp,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
+export const updateBilling = async (req, res) => {
+  if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
+
+  try {
+    const billing = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { billing },
+      { new: true }
+    );
+    res.status(200);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong." });
   }

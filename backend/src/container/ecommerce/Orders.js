@@ -14,6 +14,7 @@ import { ShareButtonPageHeader } from '../../components/buttons/share-button/sha
 import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
 import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
 import { updateArrive, updateVerified } from '../../api';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,9 @@ const Orders = () => {
 
   const { notData, item, selectedRowKeys } = state;
   const filterKey = ['Shipped', 'Awaiting Shipment', 'Canceled'];
+
+  const { path } = useRouteMatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(orderFilter());
@@ -81,7 +85,7 @@ const Orders = () => {
         action: (
           <div className="table-actions">
             <>
-              {status === 'ARRIVED' ? (
+              {/* {status === 'ARRIVED' ? (
                 ''
               ) : (
                 <Button
@@ -101,15 +105,21 @@ const Orders = () => {
                 >
                   Mark as Verified
                 </Button>
-              )}
+              )} */}
 
               {/* <Button className="btn-icon" type="primary" to="#" shape="circle">
                 <FeatherIcon icon="eye" size={16} />
-              </Button>
-              <Button className="btn-icon" type="info" to="#" shape="circle">
+              </Button> */}
+              <Button
+                className="btn-icon"
+                type="primary"
+                onClick={() => history.push(`${path}/${_id}`)}
+                to={`${path}/offers/${_id}`}
+                shape="circle"
+              >
                 <FeatherIcon icon="edit" size={16} />
               </Button>
-              <Button className="btn-icon" type="danger" to="#" shape="circle">
+              {/* <Button className="btn-icon" type="danger" to="#" shape="circle">
                 <FeatherIcon icon="trash-2" size={16} />
               </Button> */}
             </>
@@ -227,7 +237,7 @@ const Orders = () => {
                   rowSelection={rowSelection}
                   dataSource={dataSource}
                   columns={columns}
-                  pagination={{ pageSize: 7, showSizeChanger: true, total: orders?.length }}
+                  pagination={{ showSizeChanger: true, total: orders?.length }}
                 />
               </TableWrapper>
             </Col>

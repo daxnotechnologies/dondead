@@ -11,6 +11,7 @@ const Orders = lazy(() => import('../../container/ecommerce/Orders'));
 const Sellers = lazy(() => import('../../container/ecommerce/Sellers'));
 const Cart = lazy(() => import('../../container/ecommerce/Cart'));
 const Tickets = lazy(() => import('../../container/ecommerce/Tickets'));
+const OfferPage = lazy(() => import('../../container/ecommerce/OfferPage'));
 
 const EcommerceRoute = () => {
   const { path } = useRouteMatch();
@@ -22,7 +23,8 @@ const EcommerceRoute = () => {
       <Route exact path={`${path}/productDetails/:slug`} component={ProductDetails} />
       <Route exact path={`${path}/productDetails/:slug/edit-product`} component={ProductEdit} />
       <Route exact path={`${path}/invoice`} component={Invoice} />
-      <Route exact path={`${path}/orders`} component={Orders} />
+      <Route exact path={`${path}/offers`} component={Orders} />
+      <Route path={`${path}/offers/:id`} component={OfferPage} />
       <Route exact path={`${path}/sellers`} component={Sellers} />
       <Route exact path={`${path}/requests`} component={Tickets} />
       <Route path={`${path}/cart`} component={Cart} />

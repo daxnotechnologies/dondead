@@ -34,7 +34,7 @@ const moreContent = (
     </NavLink>
   </>
 );
-const TotalRevenue = ({ title }) => {
+const TotalRevenue = ({ title, revenue, revHist }) => {
   const dispatch = useDispatch();
   const { performanceState, preIsLoading } = useSelector(state => {
     return {
@@ -63,7 +63,7 @@ const TotalRevenue = ({ title }) => {
 
   const performanceDatasets = performanceState !== null && [
     {
-      data: performanceState.users[1],
+      data: revHist,
       borderColor: '#5F63F2',
       borderWidth: 4,
       fill: true,
@@ -79,24 +79,10 @@ const TotalRevenue = ({ title }) => {
       pointBorderColor: '#fff',
       pointBackgroundColor: '#5F63F2',
       hoverBorderWidth: 5,
-      amount: '$7,596',
+      amount: `$${revenue}`,
       amountClass: 'current-amount',
     },
-    {
-      data: performanceState.users[2],
-      borderColor: '#C6D0DC',
-      borderWidth: 2,
-      fill: false,
-      backgroundColor: '#00173750',
-      label: 'Previous period',
-      borderDash: [3, 3],
-      pointRadius: '0',
-      hoverRadius: '0',
-      amount: '$3,258',
-      amountClass: 'prev-amount',
-    },
   ];
-
   return (
     <RevenueWrapper>
       {performanceState !== null && (
@@ -122,7 +108,7 @@ const TotalRevenue = ({ title }) => {
               </ul>
             </div>
           }
-          more={moreContent}
+          // more={moreContent}
           title={title}
           size="large"
         >
@@ -209,7 +195,7 @@ const TotalRevenue = ({ title }) => {
                           suggestedMax: 80,
                           stepSize: 20,
                           callback(label) {
-                            return `${label}k`;
+                            return `${label}`;
                           },
                         },
                       },
@@ -247,6 +233,8 @@ TotalRevenue.defaultProps = {
 
 TotalRevenue.propTypes = {
   title: PropTypes.string,
+  revenue: PropTypes.number,
+  revHist: PropTypes.array,
 };
 
 export default TotalRevenue;

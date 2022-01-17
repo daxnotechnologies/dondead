@@ -199,207 +199,46 @@ const MobileMenuNav = ({ getActiveStatus }) => {
         </li>
 
         <li className="menu-item-has-children">
-          <Link
-            href="/shop/left-sidebar"
-            as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-          >
+          <Link href="/shop/" as={process.env.PUBLIC_URL + "/shop/"}>
             <a>Shop</a>
           </Link>
           <ul className="mobile-sub-menu">
-            <li className="menu-item-has-children">
+            <li>
               <Link
-                href="/shop/left-sidebar"
-                as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
+                href="/shop?category=dunk"
+                as={process.env.PUBLIC_URL + "/shop?category=dunk"}
               >
-                <a>Group One</a>
+                <a>DUNK</a>
               </Link>
-              <ul className="mobile-sub-menu">
-                <li>
-                  <Link
-                    href="/shop/left-sidebar"
-                    as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a>Left Sidebar</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/shop/right-sidebar"
-                    as={process.env.PUBLIC_URL + "/shop/right-sidebar"}
-                  >
-                    <a>Right Sidebar</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/shop/no-sidebar"
-                    as={process.env.PUBLIC_URL + "/shop/no-sidebar"}
-                  >
-                    <a>No Sidebar</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/shop/fullwidth-no-space"
-                    as={process.env.PUBLIC_URL + "/shop/fullwidth-no-space"}
-                  >
-                    <a>Full Width No Space</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/shop/fullwidth-no-sidebar"
-                    as={process.env.PUBLIC_URL + "/shop/fullwidth-no-sidebar"}
-                  >
-                    <a>Full Width No Sidebar</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/shop/fullwidth-left-sidebar"
-                    as={process.env.PUBLIC_URL + "/shop/fullwidth-left-sidebar"}
-                  >
-                    <a>Full Width Left Sidebar</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/shop/fullwidth-right-sidebar"
-                    as={
-                      process.env.PUBLIC_URL + "/shop/fullwidth-right-sidebar"
-                    }
-                  >
-                    <a>Full Width Right Sidebar</a>
-                  </Link>
-                </li>
-              </ul>
             </li>
-            <li className="menu-item-has-children">
+
+            <li>
               <Link
-                href="/shop/left-sidebar"
-                as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
+                href="/shop?category=yeezy"
+                as={process.env.PUBLIC_URL + "/shop?category=yeezy"}
               >
-                <a>Group Two</a>
+                <a>YEEZY</a>
               </Link>
-              <ul className="mobile-sub-menu">
-                <li>
-                  <Link
-                    href="/shop/product-basic/[slug]?slug=lorem-ipsum-decor-one"
-                    as={
-                      process.env.PUBLIC_URL +
-                      "/shop/product-basic/lorem-ipsum-decor-one"
-                    }
-                  >
-                    <a>Basic</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/shop/product-fullwidth/[slug]?slug=lorem-ipsum-decor-one"
-                    as={
-                      process.env.PUBLIC_URL +
-                      "/shop/product-fullwidth/lorem-ipsum-decor-one"
-                    }
-                  >
-                    <a>Full Width</a>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    href="/shop/product-fullwidth-right-thumb/[slug]?slug=lorem-ipsum-decor-one"
-                    as={
-                      process.env.PUBLIC_URL +
-                      "/shop/product-fullwidth-right-thumb/lorem-ipsum-decor-one"
-                    }
-                  >
-                    <a>Full Width Right Thumb</a>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    href="/shop/product-sticky/[slug]?slug=lorem-ipsum-decor-one"
-                    as={
-                      process.env.PUBLIC_URL +
-                      "/shop/product-sticky/lorem-ipsum-decor-one"
-                    }
-                  >
-                    <a>Sticky Details</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/other/cart"
-                    as={process.env.PUBLIC_URL + "/other/cart"}
-                  >
-                    <a>Shopping Cart</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/other/wishlist"
-                    as={process.env.PUBLIC_URL + "/other/wishlist"}
-                  >
-                    <a>Wishlist</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/other/compare"
-                    as={process.env.PUBLIC_URL + "/other/compare"}
-                  >
-                    <a>Compare</a>
-                  </Link>
-                </li>
-              </ul>
             </li>
-            <li className="menu-item-has-children">
+
+            <li>
               <Link
-                href="/shop/left-sidebar"
-                as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
+                href="/shop?category=jordan"
+                as={process.env.PUBLIC_URL + "/shop?category=jordan"}
               >
-                <a>Group Three</a>
+                <a>JORDAN</a>
               </Link>
-              <ul className="mobile-sub-menu">
-                <li>
-                  <Link
-                    href="/other/checkout"
-                    as={process.env.PUBLIC_URL + "/other/checkout"}
-                  >
-                    <a>Checkout</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/other/order-tracking"
-                    as={process.env.PUBLIC_URL + "/other/order-tracking"}
-                  >
-                    <a>Order Tracking</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/other/my-account"
-                    as={process.env.PUBLIC_URL + "/other/my-account"}
-                  >
-                    <a>My Account</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/other/login-register"
-                    as={process.env.PUBLIC_URL + "/other/login-register"}
-                  >
-                    <a>Login Register</a>
-                  </Link>
-                </li>
-              </ul>
             </li>
           </ul>
         </li>
 
-        <li className="menu-item-has-children">
+        <li>
+          <Link href="/account/" as={process.env.PUBLIC_URL + "/account/"}>
+            <a>Account</a>
+          </Link>
+        </li>
+
+        {/* <li className="menu-item-has-children">
           <Link href="/">
             <a>Elements</a>
           </Link>
@@ -587,9 +426,9 @@ const MobileMenuNav = ({ getActiveStatus }) => {
               </ul>
             </li>
           </ul>
-        </li>
+        </li> */}
 
-        <li className="menu-item-has-children">
+        {/* <li className="menu-item-has-children">
           <Link href="/" as={process.env.PUBLIC_URL + "/"}>
             <a>Pages</a>
           </Link>
@@ -790,7 +629,7 @@ const MobileMenuNav = ({ getActiveStatus }) => {
               </ul>
             </li>
           </ul>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { FaCloudDownloadAlt, FaFileUpload, FaRegEdit } from "react-icons/fa";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
@@ -11,8 +11,222 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../../redux/profile/actionCreator";
 import { logOut } from "../../redux/authentication/actionCreator";
-import { cancelOffer, getOffers, newTicket, paypalUpdate } from "../../api";
+import {
+  cancelOffer,
+  getOffers,
+  newTicket,
+  paypalUpdate,
+  updateBilling,
+} from "../../api";
 import FileBase from "react-file-base64";
+
+const country_list = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "Andorra",
+  "Angola",
+  "Anguilla",
+  "Antigua &amp; Barbuda",
+  "Argentina",
+  "Armenia",
+  "Aruba",
+  "Australia",
+  "Austria",
+  "Azerbaijan",
+  "Bahamas",
+  "Bahrain",
+  "Bangladesh",
+  "Barbados",
+  "Belarus",
+  "Belgium",
+  "Belize",
+  "Benin",
+  "Bermuda",
+  "Bhutan",
+  "Bolivia",
+  "Bosnia &amp; Herzegovina",
+  "Botswana",
+  "Brazil",
+  "British Virgin Islands",
+  "Brunei",
+  "Bulgaria",
+  "Burkina Faso",
+  "Burundi",
+  "Cambodia",
+  "Cameroon",
+  "Cape Verde",
+  "Cayman Islands",
+  "Chad",
+  "Chile",
+  "China",
+  "Colombia",
+  "Congo",
+  "Cook Islands",
+  "Costa Rica",
+  "Cote D Ivoire",
+  "Croatia",
+  "Cruise Ship",
+  "Cuba",
+  "Cyprus",
+  "Czech Republic",
+  "Denmark",
+  "Djibouti",
+  "Dominica",
+  "Dominican Republic",
+  "Ecuador",
+  "Egypt",
+  "El Salvador",
+  "Equatorial Guinea",
+  "Estonia",
+  "Ethiopia",
+  "Falkland Islands",
+  "Faroe Islands",
+  "Fiji",
+  "Finland",
+  "France",
+  "French Polynesia",
+  "French West Indies",
+  "Gabon",
+  "Gambia",
+  "Georgia",
+  "Germany",
+  "Ghana",
+  "Gibraltar",
+  "Greece",
+  "Greenland",
+  "Grenada",
+  "Guam",
+  "Guatemala",
+  "Guernsey",
+  "Guinea",
+  "Guinea Bissau",
+  "Guyana",
+  "Haiti",
+  "Honduras",
+  "Hong Kong",
+  "Hungary",
+  "Iceland",
+  "India",
+  "Indonesia",
+  "Iran",
+  "Iraq",
+  "Ireland",
+  "Isle of Man",
+  "Israel",
+  "Italy",
+  "Jamaica",
+  "Japan",
+  "Jersey",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kuwait",
+  "Kyrgyz Republic",
+  "Laos",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Macau",
+  "Macedonia",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Mauritania",
+  "Mauritius",
+  "Mexico",
+  "Moldova",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Montserrat",
+  "Morocco",
+  "Mozambique",
+  "Namibia",
+  "Nepal",
+  "Netherlands",
+  "Netherlands Antilles",
+  "New Caledonia",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palestine",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Puerto Rico",
+  "Qatar",
+  "Reunion",
+  "Romania",
+  "Russia",
+  "Rwanda",
+  "Saint Pierre &amp; Miquelon",
+  "Samoa",
+  "San Marino",
+  "Satellite",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Slovakia",
+  "Slovenia",
+  "South Africa",
+  "South Korea",
+  "Spain",
+  "Sri Lanka",
+  "St Kitts &amp; Nevis",
+  "St Lucia",
+  "St Vincent",
+  "St. Lucia",
+  "Sudan",
+  "Suriname",
+  "Swaziland",
+  "Sweden",
+  "Switzerland",
+  "Syria",
+  "Taiwan",
+  "Tajikistan",
+  "Tanzania",
+  "Thailand",
+  "Timor L'Este",
+  "Togo",
+  "Tonga",
+  "Trinidad &amp; Tobago",
+  "Tunisia",
+  "Turkey",
+  "Turkmenistan",
+  "Turks &amp; Caicos",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "Uruguay",
+  "Uzbekistan",
+  "Venezuela",
+  "Vietnam",
+  "Virgin Islands (US)",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe",
+];
 
 const MyAccount = () => {
   // const [check, setCheck] = useState(false);
@@ -20,11 +234,36 @@ const MyAccount = () => {
   const [payEmail, setPayEmail] = useState("");
   const router = useRouter();
   const profile = useSelector((state) => state.profile.profile);
-  const [offers, setOffers] = useState([]);
-
-  const [IDimage, setIDimage] = useState();
 
   const dispatch = useDispatch();
+
+  if (!Cookies.get("token")) {
+    router.push("account/login");
+  } else {
+    dispatch(getProfile());
+    // setCheck(true);
+  }
+
+  const [offers, setOffers] = useState([]);
+  const [address, setAddress] = useState(
+    profile?.billing
+      ? profile.billing
+      : {
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          company: "",
+          street: "",
+          country: "",
+          city: "",
+          state: "",
+          zip: "",
+        }
+  );
+  const [AU, setAU] = useState(false);
+
+  const [IDimage, setIDimage] = useState();
 
   const perks = (coins) => {
     if (coins > 500000) {
@@ -71,21 +310,13 @@ const MyAccount = () => {
     }
   };
 
-  if (!Cookies.get("token")) {
-    router.push("account/login");
-  } else {
-    dispatch(getProfile());
-    // setCheck(true);
-  }
-
   useEffect(() => {
-    getOffers(profile._id)
+    getOffers(profile?._id)
       .then(({ data }) => setOffers(data))
       .catch((err) => console.log(err));
   }, []);
 
   const logout = () => {
-    console.log("s");
     dispatch(logOut(router));
   };
 
@@ -146,7 +377,13 @@ const MyAccount = () => {
     }
   };
 
-  return (
+  const submitBilling = () => {
+    updateBilling(address)
+      .then(({ data }) => console.log(data))
+      .catch((err) => console.log(err));
+  };
+
+  return profile ? (
     <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
@@ -200,7 +437,7 @@ const MyAccount = () => {
                     <p>
                       Hello,{" "}
                       <strong>{`${profile.firstName} ${profile.lastName}`}</strong>{" "}
-                      (If Not <strong>{profile.firstName} !</strong>{" "}
+                      (If Not <strong>{profile?.firstName} !</strong>{" "}
                       {/* <Link
                         href="/other/login-register"
                         as={process.env.PUBLIC_URL + "/other/login-register"}
@@ -406,19 +643,223 @@ const MyAccount = () => {
               <Tab.Pane eventKey="address">
                 <div className="my-account-area__content">
                   <h3>Billing Address</h3>
-                  <address>
-                    <p>
-                      <strong>John Doe</strong>
-                    </p>
-                    <p>
-                      1355 Market St, Suite 900 <br />
-                      San Francisco, CA 94103
-                    </p>
-                    <p>Mobile: (123) 456-7890</p>
-                  </address>
-                  <a href="#" className="check-btn sqr-btn ">
-                    <FaRegEdit /> Edit Address
-                  </a>
+                  {profile.billing && !AU ? (
+                    <>
+                      <address>
+                        <p>
+                          <strong>{`${profile.billing.firstName} ${profile.billing.lastName}`}</strong>
+                        </p>
+                        <p>
+                          {profile.billing.street} <br />
+                          {`${profile.billing.city} ${profile.billing.state}, ${profile.billing.zip}`}
+                        </p>
+                        <p>{profile.billing.country}</p>
+                        <p>Mobile: {profile.billing.phone}</p>
+                        <p>Email: {profile.billing.email}</p>
+                      </address>
+                      <button
+                        onClick={() => setAU(true)}
+                        style={{ backgroundColor: "white", border: "none" }}
+                        className="check-btn sqr-btn "
+                      >
+                        <FaRegEdit /> Edit Address
+                      </button>
+                    </>
+                  ) : (
+                    <div
+                      className="account-details-form"
+                      style={{ paddingTop: "30px" }}
+                    >
+                      <form onSubmit={submitBilling}>
+                        <Row>
+                          <Col lg={6}>
+                            <div className="single-input-item">
+                              <label htmlFor="first-name" className="required">
+                                First Name
+                              </label>
+                              <input
+                                type="text"
+                                id="first-name"
+                                value={address.firstName}
+                                onChange={(e) =>
+                                  setAddress({
+                                    ...address,
+                                    firstName: e.target.value,
+                                  })
+                                }
+                              />
+                            </div>
+                          </Col>
+                          <Col lg={6}>
+                            <div className="single-input-item">
+                              <label htmlFor="last-name" className="required">
+                                Last Name
+                              </label>
+                              <input
+                                type="text"
+                                id="last-name"
+                                value={address.lastName}
+                                onChange={(e) =>
+                                  setAddress({
+                                    ...address,
+                                    lastName: e.target.value,
+                                  })
+                                }
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                        <div className="single-input-item">
+                          <label htmlFor="email" className="required">
+                            Email Address
+                          </label>
+                          <input
+                            type="email"
+                            id="email"
+                            value={address.email}
+                            onChange={(e) =>
+                              setAddress({
+                                ...address,
+                                email: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="single-input-item">
+                          <label htmlFor="phone" className="required">
+                            Phone Number
+                          </label>
+                          <input
+                            type="number"
+                            id="phone"
+                            value={address.phone}
+                            onChange={(e) =>
+                              setAddress({
+                                ...address,
+                                phone: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="single-input-item">
+                          <label htmlFor="company">Company Name</label>
+                          <input
+                            type="text"
+                            id="company"
+                            value={address.company}
+                            onChange={(e) =>
+                              setAddress({
+                                ...address,
+                                company: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="single-input-item">
+                          <label htmlFor="address">Street Address</label>
+                          <input
+                            type="text"
+                            id="address"
+                            value={address.street}
+                            onChange={(e) =>
+                              setAddress({
+                                ...address,
+                                street: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="single-input-item">
+                          <label>Country</label>
+                          <select
+                            value={address.country}
+                            onChange={(e) =>
+                              setAddress({
+                                ...address,
+                                country: e.target.value,
+                              })
+                            }
+                          >
+                            {country_list.map((country) => (
+                              <option>{country}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <Row>
+                          <Col lg={6}>
+                            <div className="single-input-item">
+                              <label>Town/City</label>
+                              <input
+                                type="text"
+                                placeholder="Town/City"
+                                value={address.city}
+                                onChange={(e) =>
+                                  setAddress({
+                                    ...address,
+                                    city: e.target.value,
+                                  })
+                                }
+                              />
+                            </div>
+                          </Col>
+                          <Col lg={6}>
+                            <div className="single-input-item">
+                              <label>State</label>
+                              <input
+                                type="text"
+                                placeholder="State"
+                                value={address.state}
+                                onChange={(e) =>
+                                  setAddress({
+                                    ...address,
+                                    state: e.target.value,
+                                  })
+                                }
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+
+                        <div className="single-input-item">
+                          <label>Zip Code</label>
+                          <input
+                            type="text"
+                            placeholder="Zip Code"
+                            value={address.zip}
+                            onChange={(e) =>
+                              setAddress({
+                                ...address,
+                                zip: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                        <Row>
+                          <Col lg={3}>
+                            <div className="single-input-item">
+                              <button type="submit">Save Changes</button>
+                            </div>
+                          </Col>
+                          {profile.billing ? (
+                            <Col lg={3}>
+                              <div className="single-input-item">
+                                <button onClick={() => setAU(false)}>
+                                  Cancel
+                                </button>
+                              </div>
+                            </Col>
+                          ) : (
+                            ""
+                          )}
+                        </Row>
+                      </form>
+                    </div>
+                  )}
                 </div>
               </Tab.Pane>
               <Tab.Pane eventKey="accountDetails">
@@ -450,12 +891,14 @@ const MyAccount = () => {
                         </label>
                         <input type="text" id="display-name" />
                       </div>
+
                       <div className="single-input-item">
                         <label htmlFor="email" className="required">
                           Email Address
                         </label>
                         <input type="email" id="email" />
                       </div>
+
                       <fieldset>
                         <legend>Password change</legend>
                         <div className="single-input-item">
@@ -509,6 +952,8 @@ const MyAccount = () => {
         </Container>
       </div>
     </LayoutTwo>
+  ) : (
+    <Spinner />
   );
 };
 

@@ -32,9 +32,22 @@ export const getProduct = slug =>
 
 export const getOffers = () => API.get('offer/');
 export const updateArrive = u => API.patch('offer/arrive', u);
+export const updatePayment = u => API.patch('offer/payment', u);
 export const updateVerified = u => API.patch('offer/verified', u);
+export const updateOffer = u => API.patch('offer/update', u);
+
+export const getOneOffer = id =>
+  API.get('offer/one', {
+    params: { id },
+  });
 
 export const getAllUsers = () => API.get('user/');
 export const updateUser = u => API.patch('user/update', u);
+export const getUserProfile = id =>
+  API.get('admin/user/profile', {
+    params: {
+      id,
+    },
+  });
 
 export const getTickets = () => API.get('ticket/');

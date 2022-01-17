@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bar, HorizontalBar, Line, Pie, Doughnut } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import useChartData from '../../hooks/useChartData';
@@ -425,10 +425,15 @@ ChartjsAreaChart.propTypes = {
 const ChartjsBarChartTransparent = props => {
   const { labels, datasets, options, height, layout } = props;
 
-  const data = {
+  const [data, setData] = useState({ labels, datasets });
+
+  useEffect(
+    () => {
+      setData({ labels, datasets });
+    },
+    [datasets],
     labels,
-    datasets,
-  };
+  );
 
   return (
     <ChartContainer className="parentContainer">

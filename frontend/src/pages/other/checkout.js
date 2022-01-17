@@ -6,10 +6,218 @@ import { getDiscountPrice } from "../../lib/product";
 import { IoMdCash } from "react-icons/io";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
-import { newOffer } from "../../api";
+import { newOffer, updateBilling } from "../../api";
 import { useRouter } from "next/router";
 import { deleteAllFromCart } from "../../redux/actions/cartActions";
 import { useState } from "react";
+
+const country_list = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "Andorra",
+  "Angola",
+  "Anguilla",
+  "Antigua &amp; Barbuda",
+  "Argentina",
+  "Armenia",
+  "Aruba",
+  "Australia",
+  "Austria",
+  "Azerbaijan",
+  "Bahamas",
+  "Bahrain",
+  "Bangladesh",
+  "Barbados",
+  "Belarus",
+  "Belgium",
+  "Belize",
+  "Benin",
+  "Bermuda",
+  "Bhutan",
+  "Bolivia",
+  "Bosnia &amp; Herzegovina",
+  "Botswana",
+  "Brazil",
+  "British Virgin Islands",
+  "Brunei",
+  "Bulgaria",
+  "Burkina Faso",
+  "Burundi",
+  "Cambodia",
+  "Cameroon",
+  "Cape Verde",
+  "Cayman Islands",
+  "Chad",
+  "Chile",
+  "China",
+  "Colombia",
+  "Congo",
+  "Cook Islands",
+  "Costa Rica",
+  "Cote D Ivoire",
+  "Croatia",
+  "Cruise Ship",
+  "Cuba",
+  "Cyprus",
+  "Czech Republic",
+  "Denmark",
+  "Djibouti",
+  "Dominica",
+  "Dominican Republic",
+  "Ecuador",
+  "Egypt",
+  "El Salvador",
+  "Equatorial Guinea",
+  "Estonia",
+  "Ethiopia",
+  "Falkland Islands",
+  "Faroe Islands",
+  "Fiji",
+  "Finland",
+  "France",
+  "French Polynesia",
+  "French West Indies",
+  "Gabon",
+  "Gambia",
+  "Georgia",
+  "Germany",
+  "Ghana",
+  "Gibraltar",
+  "Greece",
+  "Greenland",
+  "Grenada",
+  "Guam",
+  "Guatemala",
+  "Guernsey",
+  "Guinea",
+  "Guinea Bissau",
+  "Guyana",
+  "Haiti",
+  "Honduras",
+  "Hong Kong",
+  "Hungary",
+  "Iceland",
+  "India",
+  "Indonesia",
+  "Iran",
+  "Iraq",
+  "Ireland",
+  "Isle of Man",
+  "Israel",
+  "Italy",
+  "Jamaica",
+  "Japan",
+  "Jersey",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kuwait",
+  "Kyrgyz Republic",
+  "Laos",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Macau",
+  "Macedonia",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Mauritania",
+  "Mauritius",
+  "Mexico",
+  "Moldova",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Montserrat",
+  "Morocco",
+  "Mozambique",
+  "Namibia",
+  "Nepal",
+  "Netherlands",
+  "Netherlands Antilles",
+  "New Caledonia",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palestine",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Puerto Rico",
+  "Qatar",
+  "Reunion",
+  "Romania",
+  "Russia",
+  "Rwanda",
+  "Saint Pierre &amp; Miquelon",
+  "Samoa",
+  "San Marino",
+  "Satellite",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Slovakia",
+  "Slovenia",
+  "South Africa",
+  "South Korea",
+  "Spain",
+  "Sri Lanka",
+  "St Kitts &amp; Nevis",
+  "St Lucia",
+  "St Vincent",
+  "St. Lucia",
+  "Sudan",
+  "Suriname",
+  "Swaziland",
+  "Sweden",
+  "Switzerland",
+  "Syria",
+  "Taiwan",
+  "Tajikistan",
+  "Tanzania",
+  "Thailand",
+  "Timor L'Este",
+  "Togo",
+  "Tonga",
+  "Trinidad &amp; Tobago",
+  "Tunisia",
+  "Turkey",
+  "Turkmenistan",
+  "Turks &amp; Caicos",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "Uruguay",
+  "Uzbekistan",
+  "Venezuela",
+  "Vietnam",
+  "Virgin Islands (US)",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe",
+];
 
 const Checkout = ({ cartItems }) => {
   let cartTotalPrice = 0;
@@ -25,6 +233,20 @@ const Checkout = ({ cartItems }) => {
   const [coinsExtraCharge, setCoinsExtraCharge] = useState(0);
 
   const [earlyPayout, setEarlyPayout] = useState(false);
+
+  const [address, setAddress] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    company: "",
+    street: "",
+    country: "",
+
+    city: "",
+    state: "",
+    zip: "",
+  });
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -107,6 +329,12 @@ const Checkout = ({ cartItems }) => {
       });
   };
 
+  const submitBilling = () => {
+    updateBilling(address)
+      .then(({ data }) => console.log(data))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <LayoutTwo>
       {/* breadcrumb */}
@@ -130,83 +358,190 @@ const Checkout = ({ cartItems }) => {
             <Row>
               <Col>
                 <div className="lezada-form">
-                  <form className="checkout-form" onSubmit={handleCheckout}>
-                    <div className="row row-40">
-                      <div className="col-lg-7 space-mb--20">
-                        {/* Billing Address */}
-                        <div id="billing-form" className="space-mb--40">
-                          <h4 className="checkout-title">Billing Address</h4>
-                          {profile?.billing ? (
-                            <div className="row">
-                              <div className="col-md-6 col-12 space-mb--20">
-                                <label>
-                                  Using the billing address saved by you.
-                                </label>
-                              </div>
+                  <div className="row row-40">
+                    <div className="col-lg-7 space-mb--20">
+                      {/* Billing Address */}
+                      <div id="billing-form" className="space-mb--40">
+                        <h4 className="checkout-title">Billing Address</h4>
+                        {profile?.billing ? (
+                          <div className="row">
+                            <div className="col-md-6 col-12 space-mb--20">
+                              <label>
+                                Using the billing address saved by you.
+                              </label>
                             </div>
-                          ) : (
+                          </div>
+                        ) : (
+                          <form
+                            className="checkout-form"
+                            onSubmit={submitBilling}
+                          >
                             <div className="row">
                               <div className="col-md-6 col-12 space-mb--20">
                                 <label>First Name*</label>
-                                <input type="text" placeholder="First Name" />
+                                <input
+                                  required
+                                  type="text"
+                                  placeholder="First Name"
+                                  value={address.firstName}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      firstName: e.target.value,
+                                    })
+                                  }
+                                />
                               </div>
                               <div className="col-md-6 col-12 space-mb--20">
                                 <label>Last Name*</label>
-                                <input type="text" placeholder="Last Name" />
+                                <input
+                                  required
+                                  type="text"
+                                  placeholder="Last Name"
+                                  value={address.lastName}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      lastName: e.target.value,
+                                    })
+                                  }
+                                />
                               </div>
                               <div className="col-md-6 col-12 space-mb--20">
                                 <label>Email Address*</label>
                                 <input
+                                  required
                                   type="email"
                                   placeholder="Email Address"
+                                  value={address.email}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      email: e.target.value,
+                                    })
+                                  }
                                 />
                               </div>
                               <div className="col-md-6 col-12 space-mb--20">
                                 <label>Phone no*</label>
-                                <input type="text" placeholder="Phone number" />
+                                <input
+                                  required
+                                  type="number"
+                                  placeholder="Phone number"
+                                  value={address.phone}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      phone: e.target.value,
+                                    })
+                                  }
+                                />
                               </div>
                               <div className="col-12 space-mb--20">
                                 <label>Company Name</label>
-                                <input type="text" placeholder="Company Name" />
+                                <input
+                                  type="text"
+                                  placeholder="Company Name"
+                                  value={address.company}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      company: e.target.value,
+                                    })
+                                  }
+                                />
                               </div>
                               <div className="col-12 space-mb--20">
                                 <label>Address*</label>
                                 <input
+                                  required
                                   type="text"
-                                  placeholder="Address line 1"
-                                />
-                                <input
-                                  type="text"
-                                  placeholder="Address line 2"
+                                  placeholder="Street Address"
+                                  value={address.street}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      street: e.target.value,
+                                    })
+                                  }
                                 />
                               </div>
                               <div className="col-md-6 col-12 space-mb--20">
                                 <label>Country*</label>
-                                <select>
-                                  <option>Bangladesh</option>
-                                  <option>China</option>
-                                  <option>Australia</option>
-                                  <option>India</option>
-                                  <option>Japan</option>
+                                <select
+                                  required
+                                  value={address.country}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      country: e.target.value,
+                                    })
+                                  }
+                                >
+                                  {country_list.map((country) => (
+                                    <option>{country}</option>
+                                  ))}
                                 </select>
                               </div>
                               <div className="col-md-6 col-12 space-mb--20">
-                                <label>Town/City*</label>
-                                <input type="text" placeholder="Town/City" />
+                                <label>City*</label>
+                                <input
+                                  required
+                                  type="text"
+                                  placeholder="City"
+                                  value={address.city}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      city: e.target.value,
+                                    })
+                                  }
+                                />
                               </div>
                               <div className="col-md-6 col-12 space-mb--20">
                                 <label>State*</label>
-                                <input type="text" placeholder="State" />
+                                <input
+                                  required
+                                  type="text"
+                                  placeholder="State"
+                                  value={address.state}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      state: e.target.value,
+                                    })
+                                  }
+                                />
                               </div>
                               <div className="col-md-6 col-12 space-mb--20">
                                 <label>Zip Code*</label>
-                                <input type="text" placeholder="Zip Code" />
+                                <input
+                                  required
+                                  type="text"
+                                  placeholder="Zip Code"
+                                  value={address.zip}
+                                  onChange={(e) =>
+                                    setAddress({
+                                      ...address,
+                                      zip: e.target.value,
+                                    })
+                                  }
+                                />
                               </div>
                             </div>
-                          )}
-                        </div>
+                            <button
+                              type="submit"
+                              className="lezada-button lezada-button--medium space-mt--20"
+                            >
+                              Save Address
+                            </button>
+                          </form>
+                        )}
                       </div>
-                      <div className="col-lg-5">
+                    </div>
+
+                    <div className="col-lg-5">
+                      <form className="checkout-form" onSubmit={handleCheckout}>
                         <div className="row">
                           {/* Cart Total */}
                           <div className="col-12 space-mb--50">
@@ -278,6 +613,12 @@ const Checkout = ({ cartItems }) => {
                           <div className="col-12">
                             {/* <h4 className="checkout-title">Payment Method</h4> */}
                             <div className="checkout-payment-method">
+                              <div className="single-method">
+                                <label>
+                                  3% Fee will be deducted on PayPal Transfer
+                                </label>
+                              </div>
+
                               <div className="single-method">
                                 <input
                                   type="checkbox"
@@ -377,9 +718,9 @@ const Checkout = ({ cartItems }) => {
                             </button>
                           </div>
                         </div>
-                      </div>
+                      </form>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </Col>
             </Row>
