@@ -61,7 +61,7 @@ export const newOffer = async (req, res) => {
       to: user.email,
       subject: "Offer created",
       template: "invoice",
-      text: "The offer you sent has been created",
+      context: {},
     };
 
     res.status(200).json(offers);
