@@ -7,6 +7,9 @@ import {
   updateProfile,
   getAll,
   updateBilling,
+  forgotPassword,
+  checkToken,
+  resetPassword,
 } from "../controllers/user.js";
 
 const router = express.Router();
@@ -17,5 +20,9 @@ router.post("/signup", signup);
 router.get("/profile", auth, getProfile);
 router.patch("/update", updateProfile);
 router.patch("/billing", auth, updateBilling);
+
+router.post("/forgotPassword", forgotPassword);
+router.post("/checkToken", checkToken);
+router.patch("/reset", resetPassword);
 
 export default router;

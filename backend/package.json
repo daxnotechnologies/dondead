@@ -73,7 +73,6 @@
   "homepage": "/",
   "scripts": {
     "start": "react-app-rewired start",
-    "gcp-build": "set \"GENERATE_SOURCEMAP=false\" && react-app-rewired --max-old-space-size=4096 build",
     "build": "set \"GENERATE_SOURCEMAP=false\" && react-app-rewired --max-old-space-size=4096 build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",

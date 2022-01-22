@@ -1,15 +1,18 @@
 <!-- Winter Breeze -->
 <!-- Common Base Styling -->
-{% assign primary_font = "Lato"%}
-{% assign primary_font_color = "#000000" %} <!-- Black text color -->
-{% assign primary_font_size = "13px"%}
-{% assign secondary_font = "Lato"%}
-{% assign secondary_font_color = "#333333" %} <!-- Grey text color -->
-{% assign theme_color = "#303336"%}
+<!DOCTYPE html>
+<html>
+  <head>
+var primary_font = "Lato"
+var primary_font_color = "#000000" <!-- Black text color -->
+var primary_font_size = "13px"
+var secondary_font = "Lato"
+var secondary_font_color = "#333333" <!-- Grey text color -->
+var theme_color = "#303336"
 <script type="text/javascript">
     var fHead = document.head || document.getElementsByTagName('head')[0];
-      {% assign font_weights = "300,400,700" | split: ',' %}
-      {% for font_weight in font_weights %}
+      var font_weights = "300,400,700".split(',');
+      font_weights.map(font_weight => {
         var font1Id = 'font-{{ primary_font | replace: " ", "-" }}-{{ font_weight }}';
         if (!document.getElementById(font1Id)) {
           var linkElement = document.createElement('link');
@@ -19,7 +22,7 @@
           linkElement.setAttribute('href', 'https://fonts.googleapis.com/css?family={{ primary_font | replace: " ", "+" }}:{{ font_weight }}&subset=latin-ext');
           fHead.appendChild(linkElement);
         };
-        {% if secondary_font != blank and secondary_font != primary_font %}
+        if (secondary_font != blank && secondary_font != primary_font) {
           var font2Id = 'font-{{ secondary_font | replace: " ", "-" }}-{{ font_weight }}';
           if (!document.getElementById(font2Id)) {
             var linkElement = document.createElement('link');
@@ -29,8 +32,8 @@
             linkElement.setAttribute('href', 'https://fonts.googleapis.com/css?family={{ secondary_font | replace: " ", "+" }}:{{ font_weight }}&subset=latin-ext');
             fHead.appendChild(linkElement);
           };
-        {% endif %}
-      {% endfor %}
+        }
+      });
 </script>
 <script>
     $.ajaxSetup({
@@ -45,7 +48,7 @@
       margin: 0,
       lineColor: "{{ primary_font_color }}",
       displayValue: false, //Show the text below the barcode (can be true or false)
-      fontSize: "{{ primary_font_size | remove: "px" | minus: 1 }}",
+      fontSize: "{{ primary_font_size | remove: 'px' | minus: 1 }}",
       font: "{{ primary_font }}",
       textAlign: "left"
     };
@@ -126,9 +129,9 @@
     
         /* ### BASE - TYPOGRAPHY AND REMOVAL OF STANDARD SHOPIFY STYLING ### */
         .printer-preview-content .t116728 * {
-          color: {{ secondary_font_color }};
-          font-family: '{{ primary_font }}';
-          font-size: {{ primary_font_size }};
+          color: secondary_font_color;
+          font-family: primary_font;
+          font-size: primary_font_size;
           font-weight: 400;
           line-height: 18px;
           -webkit-font-smoothing: antialiased;
@@ -354,7 +357,7 @@
           list-style: none;
         }
         .printer-preview-content .t116728 li {
-          color: {{ secondary_font_color }};
+          color: secondary_font_color;
           list-style: none;
         }
     
@@ -391,7 +394,7 @@
         }
         /* ### BASE - HORIZONTAL RULE MARKS ### */
         .printer-preview-content .t116728 hr {
-          background: {{ theme_color }};
+          background: theme_color;
           border-top: 0;
           border: 0;
           height: 2px;
@@ -407,17 +410,17 @@
     
       /* ### DESIGN SPECIFIC - TYPOGRAPHY ### */
       .printer-preview-content .t116728 h1 {
-        font-family: '{{ secondary_font }}';
-        color: {{ theme_color }};
+        font-family: secondary_font;
+        color: theme_color;
         font-weight: bold;
       }
       .printer-preview-content .t116728 h2 {
-        font-family: '{{ secondary_font }}';
-        color: {{ primary_font_color }};
+        font-family: secondary_font;
+        color: primary_font_color;
       }
       .printer-preview-content .t116728 h3 {
-        font-family: '{{ secondary_font }}';
-        color: {{ primary_font_color }};
+        font-family: secondary_font;
+        color: primary_font_color;
       }
     
       /* ### DESIGN SPECIFIC - LOGO POSITIONING ### */
@@ -433,7 +436,7 @@
       }
       .printer-preview-content .t116728 .shop-block .shop-address-block b,
       .printer-preview-content .t116728 .shop-block .shop-address-block b * {
-        color: {{ primary_font_color }};
+        color: primary_font_color;
       }
       .printer-preview-content .t116728 .shop-block .shop-domain {
         font-weight: bold;
@@ -441,20 +444,20 @@
     
       .printer-preview-content .t116728 .shop-return-address b,
       .printer-preview-content .t116728 .shop-return-address b * {
-        color: {{ primary_font_color }};
+        color: primary_font_color;
       }
     
       /* ### DESIGN SPECIFIC - ORDER DETAILS ### */
       .printer-preview-content .t116728 .order-details-title {
         display: inline-block;
         font-weight: bold;
-        color: {{ primary_font_color }};
+        color: primary_font_color;
       }
     
       /* ### DESIGN SPECIFIC - BILL TO AND SHIP TO ADDRESS ### */
       .printer-preview-content .t116728 .address-title {
         font-weight: bold;
-        color: {{ theme_color }};
+        color: theme_color;
       }
       .printer-preview-content .t116728 .address {
         margin-left: 2%;
@@ -464,9 +467,9 @@
       .printer-preview-content .t116728 .order-table thead tr th {
         padding-left: 4px;
         padding-right: 4px;
-        border-top: 2px solid {{ theme_color }};
+        border-top: 2px solid theme_color;
         padding-top: 7px;
-        border-bottom: 2px solid {{ theme_color }};
+        border-bottom: 2px solid theme_color;
         padding-bottom:7px;
         font-weight: bold;
       }
@@ -485,7 +488,7 @@
       .printer-preview-content .t116728 .order-table tbody > tr > td.line-item-description,
       .printer-preview-content .t116728 .order-table tbody > tr > td.line-item-qty {
         font-weight: bold;
-        color: {{ primary_font_color }};
+        color: primary_font_color;
       }
       .printer-preview-content .t116728 .order-table tbody > tr > td.line-item-description p.line-item-sku {
         font-weight: normal;
@@ -499,43 +502,43 @@
       }
       /* ### DESIGN SPECIFIC - PRICING TABLE SPECIFIC ### */
       .printer-preview-content .t116728 .pricing-table tbody > tr.pricing-table-total-row > td {
-        border-top: 2px solid {{ theme_color }};
-        border-bottom: 2px solid {{ theme_color }};
+        border-top: 2px solid theme_color;
+        border-bottom: 2px solid theme_color;
         padding-bottom:7px;
       }
       .printer-preview-content .t116728 .pricing-table tbody > tr > td.pricing-table-title,
       .printer-preview-content .t116728 .pricing-table tbody > tr > td.pricing-table-title span {
         font-weight: bold;
-        color: {{ primary_font_color }};
+        color: primary_font_color;
       }
       .printer-preview-content .t116728 .pricing-table tbody > tr.pricing-table-total-row .pricing-table-title,
       .printer-preview-content .t116728 .pricing-table tbody > tr.pricing-table-total-row .pricing-table-text {
         font-weight: bold;
-        color: {{ primary_font_color }};
+        color: primary_font_color;
       }
     
       /* ### DESIGN SPECIFIC - ORDER NOTES ### */
       .printer-preview-content .t116728 .notes-title {
         font-weight: bold;
-        color: {{ primary_font_color }};
+        color: primary_font_color;
       }
     
       /* ### DESIGN SPECIFIC - RETURN FORM REASON CODES ### */
       .printer-preview-content .t116728 .return-codes b,
       .printer-preview-content .t116728 .return-code b * {
         font-weight: bold;
-        color: {{ primary_font_color }};
+        color: primary_font_color;
       }
     
       /* ### DESIGN SPECIFIC - THANK YOU MESSAGE ### */
       .printer-preview-content .t116728 .thanks-text {
         text-align: center;
         font-weight: bold;
-        color: {{ theme_color }};
+        color: theme_color;
       }
       .printer-preview-content .t116728 .thanks-text * {
         font-weight: bold;
-        color: {{ theme_color }};
+        color: theme_color;
       }
     
       /* ### DESIGN SPECIFIC - GIFT MESSAGE ### */
@@ -573,6 +576,8 @@
     
     }
 </style>
+</head>
+<body>
 <div class="printer-preview-content" contenteditable="true" spellcheck="false" title="Click to edit text (changes will be printed but not saved)">
     <div class="t116728">
         <div class="row">
@@ -840,3 +845,5 @@
         </div>
     </div>
 </div>
+</body>
+</html>

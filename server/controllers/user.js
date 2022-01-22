@@ -1,7 +1,22 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { createTransport } from "nodemailer";
+import { randomBytes } from "crypto";
 
 import User from "../models/user.js";
+import Token from "../models/token.js";
+
+var transporter = createTransport({
+  service: "gmail",
+  host: "smtp.gmail.com",
+  // port: 465,
+  // secure: true,
+  auth: {
+    // type: "OAuth2",
+    user: "testfirebaseorfik@gmail.com",
+    pass: "orfik123@",
+  },
+});
 
 export const getAll = async (req, res) => {
   try {
@@ -175,7 +190,85 @@ export const updateProfile = async (req, res) => {
     const h = await User.findByIdAndUpdate(user._id, user, { new: true });
     res.status(200);
   } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(404).json({ message: "User doesn't exist." });
+
+    let token = await Token.findOne({ userEmail: user.email });
+
+    if (!token) {
+      token = await Token.create({
+        userEmail: user.email,
+        token: randomBytes(32).toString("hex"),
+      });
+    }
+
+    const link = `https://dondead-frontend.uc.r.appspot.com/password-reset/${user.email}/${token.token}`;
+
+    var mailOptions = {
+      from: "testfirebaseorfik@gmail.com",
+      to: user.email,
+      subject: "Password Reset",
+      html: `<h1>Password Rest Link</h1><p>The link for reseting the password is as follows: <a href=${link}>${link}</a></p>`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
+    res.status(200).json({ message: "Email for password reset sent." });
+  } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
+export const checkToken = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    const tokenn = await Token.findOne({ token });
+
+    if (!tokenn) res.status(404).json({ message: "Token Invalid" });
+
+    res.status(200).json({ message: "Token Valid" });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, password, token } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(404).json({ message: "User doesn't exist." });
+
+    let tokenn = await Token.findOne({ token });
+
+    if (!tokenn) res.status(404).json({ message: "Token Invalid" });
+
+    const user = await User.findByIdAndUpdate(
+      user._id,
+      { password },
+      { new: true }
+    );
+
+    res.status(200).json(user);
+  } catch (error) {
     res.status(500).json({ message: "Something went wrong." });
   }
 };

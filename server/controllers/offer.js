@@ -1,6 +1,7 @@
 import Offer from "../models/offer.js";
 import User from "../models/user.js";
 import { createTransport } from "nodemailer";
+import * as hbs from "nodemailer-express-handlebars";
 
 var transporter = createTransport({
   service: "gmail",
@@ -45,10 +46,21 @@ export const newOffer = async (req, res) => {
 
     console.log(s);
 
+    const handlebarOptions = {
+      viewEngine: {
+        partialsDir: path.resolve("./views/"),
+        defaultLayout: false,
+      },
+      viewPath: path.resolve("./views/"),
+    };
+
+    transporter.use("compile", hbs(handlebarOptions));
+
     var mailOptions = {
       from: "testfirebaseorfik@gmail.com",
       to: user.email,
       subject: "Offer created",
+      template: "invoice",
       text: "The offer you sent has been created",
     };
 

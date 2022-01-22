@@ -34,7 +34,7 @@ const HeaderTwo = () => {
           top: 0,
           left: 0,
           width: "100%",
-          paddingTop: "25px"
+          paddingTop: "25px",
         }}
       >
         <Container className="wide">
@@ -44,7 +44,9 @@ const HeaderTwo = () => {
               <Link href="/" as={process.env.PUBLIC_URL + "/"}>
                 <a>
                   <img
-                    src={process.env.PUBLIC_URL + "/assets/images/logo.png"}
+                    src={
+                      process.env.PUBLIC_URL + "/assets/images/xxx_125x@2x.png"
+                    }
                     className="img-fluid"
                     alt=""
                   />

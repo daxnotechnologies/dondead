@@ -9,11 +9,11 @@ const NotFound = () => {
       <HeaderTwo />
       <div
         className="nothing-found-area bg-404"
-        style={{
-          backgroundImage: `url(${
-            process.env.PUBLIC_URL + "/assets/images/backgrounds/404-bg.jpg"
-          })`,
-        }}
+        // style={{
+        //   backgroundImage: `url(${
+        //     process.env.PUBLIC_URL + "/assets/images/backgrounds/404-bg.jpg"
+        //   })`,
+        // }}
       >
         <Container>
           <Row>
