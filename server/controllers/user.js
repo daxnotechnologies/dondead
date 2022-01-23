@@ -253,7 +253,7 @@ export const resetPassword = async (req, res) => {
   try {
     const { email, password, token } = req.body;
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
 
     if (!user) return res.status(404).json({ message: "User doesn't exist." });
 
@@ -261,11 +261,7 @@ export const resetPassword = async (req, res) => {
 
     if (!tokenn) res.status(404).json({ message: "Token Invalid" });
 
-    const user = await User.findByIdAndUpdate(
-      user._id,
-      { password },
-      { new: true }
-    );
+    user = await User.findByIdAndUpdate(user._id, { password }, { new: true });
 
     res.status(200).json(user);
   } catch (error) {

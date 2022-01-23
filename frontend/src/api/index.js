@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import token from "../../../server/models/token";
 
 // const API = axios.create({
 //   baseURL: "http://localhost:8080/",
