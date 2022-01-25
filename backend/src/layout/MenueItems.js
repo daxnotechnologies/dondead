@@ -88,11 +88,11 @@ const MenuItems = ({ darkMode, toggleCollapsed, topMenu, events }) => {
         </NavLink>
       </Menu.Item> */}
 
-      <Menu.Item key="settings">
+      {/* <Menu.Item key="settings">
         <NavLink onClick={toggleCollapsed} to={`${path}/settings`}>
           Settings
         </NavLink>
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
 };

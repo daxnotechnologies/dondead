@@ -20,9 +20,10 @@ const Register = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    signup({ firstName, lastName, email, password, vatID }).then((response) => {
-      console.log("response=", response.data.message);
-      if (response.data.message === true) {
+    signup({ firstName, lastName, email, password, vatID })
+      .then((response) => {
+        console.log("response=", response.data);
+
         console.log("token: ", response.data.token);
         try {
           Cookies.set("token", response.data.token);
@@ -32,10 +33,15 @@ const Register = () => {
         } catch (e) {
           console.log("error");
         }
-      } else if (response.data.message === false) {
-        alert("already");
-      }
-    });
+      })
+      .catch((error) => {
+        console.log();
+        if (error.response.data.message === "User already exists.") {
+          alert("User with this email already exists");
+        } else {
+          alert("Cant sign up due to some server error");
+        }
+      });
   };
 
   return (

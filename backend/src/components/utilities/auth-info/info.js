@@ -35,9 +35,10 @@ const AuthInfo = () => {
     <UserDropDwon>
       <div className="user-dropdwon">
         <figure className="user-dropdwon__info">
-          <img src={require('../../../static/img/avatar/chat-auth.png')} alt="" />
+          {/* <img src={require('../../../static/img/avatar/chat-auth.png')} alt="" /> */}
           <figcaption>
-            <Heading as="h5">{`${profile.firstName} ${profile.lastName}`}</Heading>
+            {/* <Heading as="h5">{`${profile.firstName} ${profile.lastName}`}</Heading> */}
+            <Heading as="h5">Administrator</Heading>
             <p>Admin</p>
           </figcaption>
         </figure>
@@ -47,11 +48,11 @@ const AuthInfo = () => {
               <FeatherIcon icon="user" /> Profile
             </Link>
           </li> */}
-          <li>
+          {/* <li>
             <Link to="/admin/settings">
               <FeatherIcon icon="settings" /> Settings
             </Link>
-          </li>
+          </li> */}
           {/* <li>
             <Link to="#">
               <FeatherIcon icon="dollar-sign" /> Billing
