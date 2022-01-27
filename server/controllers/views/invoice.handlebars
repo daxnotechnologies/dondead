@@ -1,11 +1,110 @@
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Dondead Invoice</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <style>
+      .main { display: flex; flex-direction: column; margin-top: 5%;
+      font-family: Arial, Helvetica, sans-serif; } .header { display: flex;
+      justify-content: space-between; } .head1 { object-fit: contains; }
+      .logo-wrapper { width: 40%; justify-content: center; align-items: center;
+      display: flex; } .logo { width: 100%; } .section2 { line-height: 5px; }
+      .lineshr { margin-top: 60px; } .footer { text-align: center; font-size:
+      12px; } .line_container { display: flex; justify-content: space-between; }
+      .h1 { flex-grow: 0.7; } .h2 { } .menuitem { display: flex;
+      justify-content: space-between; align-items: center; } .priccontainer {
+      margin-left: 70%; margin-top: 5%; margin-bottom: 5%; }
+
+    </style>
+    <title>Document</title>
   </head>
   <body>
-    <h2>Hello {{name}}! </h2>
-    <p>We're glad to have you on board at {{company}}. </p>
+    <div class="main">
+      <div class="header">
+        <h2 class="head1">Lieferschein</h2>
+        <div class="logo-wrapper">
+          <a href="https://dondead.com" target="_blank">
+            <img
+              class="logo"
+              alt="Logo"
+              src="https://cdn.filestackcontent.com/api/file/61TLCq4lSg2KVOEj4enE"
+            />
+          </a>
+        </div>
+      </div>
+      <div class="section2">
+        {{! <p><b>Verkaufs-Nr.</b> #6897</p> }}
+
+        <p><b>Verkaufsdatum</b> {{date}}</p>
+        {{! <p>
+          <b>Auszahlung</b>
+          7.5 % mehr auszahlung in bar ( abgabe in berlin )
+        </p> }}
+        <p><b>Versand</b> Abgabe im Dondead Store</p>
+        <p><b>Berlin </b>Menge {{total}}</p>
+        {{! <p><b>E-Mail</b> joel.rudmann@gmail.com</p> }}
+        <p><b>E-Mail</b> {{email}}</p>
+        <br />
+        <br />
+        <p><b>Ambesder</b>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{name}}</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{street}}</p>
+          <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{zip}} {{city}}</p>
+        </p>
+        <div class="lineshr">
+          <hr width="100%" size="3px" color="black" />
+          <div class="line_container">
+            <h3 class="h1">Artikelbeschreibung </h3>
+            <h3 class="h2"> Stckz. </h3>
+            <h3 class="h2"> Preis</h3>
+            <h3 class="h2"> Gesamtbetrag</h3>
+
+          </div>
+
+          <hr width="100%" size="3px" color="black" />
+        </div>
+        {{#each items}}
+          <div class="menuitem">
+            <img src={{this.image}} alt="Gir" width="100" height="70" />
+            <p><b>{{this.title}}</b></p>
+            <p>×{{this.quantity}}</p>
+            <p>€{{this.productPrice}}</p>
+            <p>€{{this.productPrice}}</p>
+          </div>
+          <hr width="100%" size="1px" color="gray" />
+        {{/each}}
+
+        <div class="priccontainer">
+          <p><b>
+              Zwischensumme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>€{{subTotal}}</p>
+          <hr width="100%" size="1px" color="gray" />
+          <p><b>
+              Versand
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+            €{{fee}}</p>
+          <hr width="100%" size="3px" color="black" />
+          <p><b>
+              Gesamtbetrag
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;</b>€{{total}}</p>
+          <hr width="100%" size="3px" color="black" />
+        </div>
+
+      </div>
+      <div class="footer">
+        <p><b> Vielen Dank für Ihren Verkauf!</b></p>
+        <p>Bitten lassen Sie es uns wissen, falls Sie irgendwelche Fragen haben.</p>
+        <p><b>Dondead GmbH</b></p>
+        <p>Industriestraße 19 / Nürnberg, 90441 /</p>
+        <p>help@dondead.com /+49 030 61285221</p>
+        <p><b>dondead.com</b></p>
+      </div>
+    </div>
   </body>
 </html>

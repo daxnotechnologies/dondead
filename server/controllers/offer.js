@@ -1,7 +1,8 @@
 import Offer from "../models/offer.js";
 import User from "../models/user.js";
 import { createTransport } from "nodemailer";
-import * as hbs from "nodemailer-express-handlebars";
+import hbs from "nodemailer-express-handlebars";
+import path from "path";
 
 var transporter = createTransport({
   service: "gmail",
@@ -21,7 +22,7 @@ export const newOffer = async (req, res) => {
   const offer = req.body;
 
   try {
-    const user = await User.findById(offer.offererID);
+    let user = await User.findById(offer.offererID);
 
     const offers = await Offer.create({
       ...offer,
@@ -35,7 +36,7 @@ export const newOffer = async (req, res) => {
 
     // console.log(user);
 
-    const s = await User.findByIdAndUpdate(
+    user = await User.findByIdAndUpdate(
       offers.offererID,
       {
         balance: user.balance + offers.amount,
@@ -44,24 +45,34 @@ export const newOffer = async (req, res) => {
       { new: true }
     );
 
-    console.log(s);
-
     const handlebarOptions = {
       viewEngine: {
-        partialsDir: path.resolve("./views/"),
+        partialsDir: path.resolve("./controllers/views/"),
         defaultLayout: false,
       },
-      viewPath: path.resolve("./views/"),
+      viewPath: path.resolve("./controllers/views/"),
     };
 
     transporter.use("compile", hbs(handlebarOptions));
 
     var mailOptions = {
       from: "testfirebaseorfik@gmail.com",
-      to: user.email,
+      // to: user.email,
+      to: "talalahsan01@gmail.com",
       subject: "Offer created",
       template: "invoice",
-      context: {},
+      context: {
+        date: new Date(offers.timestamp).getDate(),
+        total: offers.amount,
+        email: user.email,
+        name: `${user.firstName} ${user.lastName}`,
+        street: user.billing.street,
+        zip: user.billing.zip,
+        city: user.billing.city,
+        items: offers.products,
+        fee: offers.shippingFee,
+        subTotal: offers.amount - offers.shippingFee,
+      },
     };
 
     res.status(200).json(offers);

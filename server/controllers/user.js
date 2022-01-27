@@ -207,17 +207,17 @@ export const forgotPassword = async (req, res) => {
     if (!token) {
       token = await Token.create({
         userEmail: user.email,
-        token: randomBytes(32).toString("hex"),
+        token: randomBytes(3).toString("hex"),
       });
     }
 
-    const link = `https://dondead-frontend.uc.r.appspot.com/password-reset/${user.email}/${token.token}`;
+    // const link = `https://dondead-frontend.uc.r.appspot.com/password-reset/${user.email}/${token.token}`;
 
     var mailOptions = {
       from: "testfirebaseorfik@gmail.com",
       to: user.email,
       subject: "Password Reset",
-      html: `<h1>Password Rest Link</h1><p>The link for reseting the password is as follows: <a href=${link}>${link}</a></p>`,
+      html: `<h1>Password Rest Link</h1><p>The code for reseting your password is as follows: ${token}</p>`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

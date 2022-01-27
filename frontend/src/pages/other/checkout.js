@@ -10,6 +10,8 @@ import { newOffer, updateBilling } from "../../api";
 import { useRouter } from "next/router";
 import { deleteAllFromCart } from "../../redux/actions/cartActions";
 import { useState } from "react";
+import Cookies from "js-cookie";
+import { getProfile } from "../../redux/profile/actionCreator";
 
 const country_list = [
   "Afghanistan",
@@ -226,7 +228,6 @@ const Checkout = ({ cartItems }) => {
   const profile = useSelector((state) => state.profile.profile);
   const [vat, setVat] = useState(false);
   const [vatCharge, setVatCharge] = useState(0);
-
   const [extra, setExtra] = useState(false);
   const [extraCharge, setExtraCharge] = useState(0);
 
@@ -250,6 +251,13 @@ const Checkout = ({ cartItems }) => {
 
   const router = useRouter();
   const dispatch = useDispatch();
+
+  if (!Cookies.get("token")) {
+    router.push("/account/login");
+  } else {
+    dispatch(getProfile());
+    // setCheck(true);
+  }
 
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
@@ -310,11 +318,12 @@ const Checkout = ({ cartItems }) => {
     const offererID = profile._id;
     const status = "NOT DELIVERED";
     const amount = grandTotal;
-    // console.log(amount);
+
     newOffer({
       products,
       offererID,
       status,
+      shippingFee,
       amount,
       extraPayout: extra,
       earlyPayout,
