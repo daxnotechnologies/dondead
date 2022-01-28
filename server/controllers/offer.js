@@ -57,8 +57,7 @@ export const newOffer = async (req, res) => {
 
     var mailOptions = {
       from: "testfirebaseorfik@gmail.com",
-      // to: user.email,
-      to: "talalahsan01@gmail.com",
+      to: user.email,
       subject: "Offer created",
       template: "invoice",
       context: {

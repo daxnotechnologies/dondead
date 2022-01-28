@@ -178,7 +178,7 @@ export const updateBilling = async (req, res) => {
       { billing },
       { new: true }
     );
-    res.status(200);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong." });
   }
@@ -188,7 +188,7 @@ export const updateProfile = async (req, res) => {
   try {
     const user = req.body;
     const h = await User.findByIdAndUpdate(user._id, user, { new: true });
-    res.status(200);
+    res.status(200).json(h);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong." });
   }
