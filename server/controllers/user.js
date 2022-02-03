@@ -1,22 +1,13 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { createTransport } from "nodemailer";
+import { google } from "googleapis";
 import { randomBytes } from "crypto";
+
+const OAuth2 = google.auth.OAuth2;
 
 import User from "../models/user.js";
 import Token from "../models/token.js";
-
-var transporter = createTransport({
-  service: "gmail",
-  host: "smtp.gmail.com",
-  // port: 465,
-  // secure: true,
-  auth: {
-    // type: "OAuth2",
-    user: "testfirebaseorfik@gmail.com",
-    pass: "orfik123@",
-  },
-});
 
 export const getAll = async (req, res) => {
   try {
@@ -213,8 +204,35 @@ export const forgotPassword = async (req, res) => {
 
     // const link = `https://dondead-frontend.uc.r.appspot.com/password-reset/${user.email}/${token.token}`;
 
+    const oauth2Client = new OAuth2(
+      process.env.Client_ID,
+      process.env.Client_Secret,
+      "https://developers.google.com/oauthplayground"
+    );
+
+    oauth2Client.setCredentials({
+      refresh_token: process.env.Refresh_Token,
+    });
+
+    const accessToken = oauth2Client.getAccessToken();
+
+    var transporter = createTransport({
+      service: "gmail",
+      // host: "smtp.gmail.com",
+      // port: 587,
+      // secure: true,
+      auth: {
+        type: "OAuth2",
+        user: "sales@dondead.com",
+        clientId: process.env.Client_ID,
+        clientSecret: process.env.Client_Secret,
+        refreshToken: process.env.Refresh_Token,
+        accessToken: accessToken,
+      },
+    });
+
     var mailOptions = {
-      from: "testfirebaseorfik@gmail.com",
+      from: "sales@dondead.com",
       to: user.email,
       subject: "Password Reset",
       html: `<h1>Password Rest Link</h1><p>The code for reseting your password is as follows: ${token}</p>`,

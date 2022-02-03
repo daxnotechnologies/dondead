@@ -3,18 +3,9 @@ import User from "../models/user.js";
 import { createTransport } from "nodemailer";
 import hbs from "nodemailer-express-handlebars";
 import path from "path";
+import { google } from "googleapis";
 
-var transporter = createTransport({
-  service: "gmail",
-  host: "smtp.gmail.com",
-  // port: 465,
-  // secure: true,
-  auth: {
-    // type: "OAuth2",
-    user: "testfirebaseorfik@gmail.com",
-    pass: "orfik123@",
-  },
-});
+const OAuth2 = google.auth.OAuth2;
 
 export const newOffer = async (req, res) => {
   // if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
@@ -45,6 +36,33 @@ export const newOffer = async (req, res) => {
       { new: true }
     );
 
+    const oauth2Client = new OAuth2(
+      process.env.Client_ID,
+      process.env.Client_Secret,
+      "https://developers.google.com/oauthplayground"
+    );
+
+    oauth2Client.setCredentials({
+      refresh_token: process.env.Refresh_Token,
+    });
+
+    const accessToken = oauth2Client.getAccessToken();
+
+    var transporter = createTransport({
+      service: "gmail",
+      // host: "smtp.gmail.com",
+      // port: 587,
+      // secure: true,
+      auth: {
+        type: "OAuth2",
+        user: "sales@dondead.com",
+        clientId: process.env.Client_ID,
+        clientSecret: process.env.Client_Secret,
+        refreshToken: process.env.Refresh_Token,
+        accessToken: accessToken,
+      },
+    });
+
     const handlebarOptions = {
       viewEngine: {
         partialsDir: path.resolve("./controllers/views/"),
@@ -56,7 +74,7 @@ export const newOffer = async (req, res) => {
     transporter.use("compile", hbs(handlebarOptions));
 
     var mailOptions = {
-      from: "testfirebaseorfik@gmail.com",
+      from: "sales@dondead.com",
       to: user.email,
       subject: "Offer created",
       template: "invoice",
@@ -171,8 +189,35 @@ export const updateArrive = async (req, res) => {
 
     const { email } = await User.findById(u.offererID);
 
+    const oauth2Client = new OAuth2(
+      process.env.Client_ID,
+      process.env.Client_Secret,
+      "https://developers.google.com/oauthplayground"
+    );
+
+    oauth2Client.setCredentials({
+      refresh_token: process.env.Refresh_Token,
+    });
+
+    const accessToken = oauth2Client.getAccessToken();
+
+    var transporter = createTransport({
+      service: "gmail",
+      // host: "smtp.gmail.com",
+      // port: 587,
+      // secure: true,
+      auth: {
+        type: "OAuth2",
+        user: "sales@dondead.com",
+        clientId: process.env.Client_ID,
+        clientSecret: process.env.Client_Secret,
+        refreshToken: process.env.Refresh_Token,
+        accessToken: accessToken,
+      },
+    });
+
     var mailOptions = {
-      from: "testfirebaseorfik@gmail.com",
+      from: "sales@dondead.com",
       to: email,
       subject: "Offer Received",
       text: "The offer you sent has been received",
@@ -213,8 +258,35 @@ export const updateVerified = async (req, res) => {
 
     const { email } = await User.findById(u.offererID);
 
+    const oauth2Client = new OAuth2(
+      process.env.Client_ID,
+      process.env.Client_Secret,
+      "https://developers.google.com/oauthplayground"
+    );
+
+    oauth2Client.setCredentials({
+      refresh_token: process.env.Refresh_Token,
+    });
+
+    const accessToken = oauth2Client.getAccessToken();
+
+    var transporter = createTransport({
+      service: "gmail",
+      // host: "smtp.gmail.com",
+      // port: 587,
+      // secure: true,
+      auth: {
+        type: "OAuth2",
+        user: "sales@dondead.com",
+        clientId: process.env.Client_ID,
+        clientSecret: process.env.Client_Secret,
+        refreshToken: process.env.Refresh_Token,
+        accessToken: accessToken,
+      },
+    });
+
     var mailOptions = {
-      from: "testfirebaseorfik@gmail.com",
+      from: "sales@dondead.com",
       to: email,
       subject: "Offer Verified",
       text: "The offer you sent has been verified",
@@ -252,8 +324,35 @@ export const updateOffer = async (req, res) => {
 
     const { email } = await User.findById(u.offererID);
 
+    const oauth2Client = new OAuth2(
+      process.env.Client_ID,
+      process.env.Client_Secret,
+      "https://developers.google.com/oauthplayground"
+    );
+
+    oauth2Client.setCredentials({
+      refresh_token: process.env.Refresh_Token,
+    });
+
+    const accessToken = oauth2Client.getAccessToken();
+
+    var transporter = createTransport({
+      service: "gmail",
+      // host: "smtp.gmail.com",
+      // port: 587,
+      // secure: true,
+      auth: {
+        type: "OAuth2",
+        user: "sales@dondead.com",
+        clientId: process.env.Client_ID,
+        clientSecret: process.env.Client_Secret,
+        refreshToken: process.env.Refresh_Token,
+        accessToken: accessToken,
+      },
+    });
+
     var mailOptions = {
-      from: "testfirebaseorfik@gmail.com",
+      from: "sales@dondead.com",
       to: email,
       subject: "Offer Verified",
       text: "The offer you sent has been updated",
@@ -293,8 +392,35 @@ export const updatePayment = async (req, res) => {
 
     const { email } = await User.findById(u.offererID);
 
+    const oauth2Client = new OAuth2(
+      process.env.Client_ID,
+      process.env.Client_Secret,
+      "https://developers.google.com/oauthplayground"
+    );
+
+    oauth2Client.setCredentials({
+      refresh_token: process.env.Refresh_Token,
+    });
+
+    const accessToken = oauth2Client.getAccessToken();
+
+    var transporter = createTransport({
+      service: "gmail",
+      // host: "smtp.gmail.com",
+      // port: 587,
+      // secure: true,
+      auth: {
+        type: "OAuth2",
+        user: "sales@dondead.com",
+        clientId: process.env.Client_ID,
+        clientSecret: process.env.Client_Secret,
+        refreshToken: process.env.Refresh_Token,
+        accessToken: accessToken,
+      },
+    });
+
     var mailOptions = {
-      from: "testfirebaseorfik@gmail.com",
+      from: "sales@dondead.com",
       to: email,
       subject: "Offer Verified",
       text: "The offer you sent has been verified",
