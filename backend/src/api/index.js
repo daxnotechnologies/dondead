@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 // });
 
 const API = axios.create({
-  baseURL: 'https://dondead-server.uc.r.appspot.com/',
+  baseURL: 'https://donedead-server.uc.r.appspot.com/',
 });
 
 API.interceptors.request.use(req => {
