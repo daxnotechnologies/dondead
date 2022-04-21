@@ -3,7 +3,15 @@ import User from "../models/user.js";
 import { createTransport } from "nodemailer";
 import hbs from "nodemailer-express-handlebars";
 import path from "path";
+import { fileURLToPath } from "url";
 import { google } from "googleapis";
+import pdf from "pdf-creator-node";
+import fs from "fs";
+
+const __filename = fileURLToPath(import.meta.url);
+
+// 👇️ "/home/john/Desktop/javascript"
+const __dirname = path.dirname(__filename);
 
 const OAuth2 = google.auth.OAuth2;
 
@@ -63,22 +71,72 @@ export const newOffer = async (req, res) => {
       },
     });
 
-    const handlebarOptions = {
-      viewEngine: {
-        partialsDir: path.resolve("./controllers/views/"),
-        defaultLayout: false,
+    // const handlebarOptions = {
+    //   viewEngine: {
+    //     partialsDir: path.resolve("./controllers/views/"),
+    //     defaultLayout: false,
+    //   },
+    //   viewPath: path.resolve("./controllers/views/"),
+    // };
+
+    // transporter.use("compile", hbs(handlebarOptions));
+
+    //pdf generation
+
+    var html = fs.readFileSync(
+      path.join(__dirname, "./views/pdfInvoiceTemplate.html"),
+      "utf8"
+    );
+    // const bitmap = fs.readFileSync(
+    //   path.join(__dirname, "../pdfTemplates/cui.png")
+    // );
+    // const logo = bitmap.toString("base64");
+
+    var options = {
+      format: "A4",
+      orientation: "portrait",
+      border: "10mm",
+
+      footer: {
+        height: "40mm",
+        contents: {
+          default: ` <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><b>Vielen Dank für Ihren Verkauf!</b></td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>Bitten lassen Sie es uns wissen, falls Sie irgendwelche Fragen haben.</td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><b>Dondead GmbH</b></td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>Industriestraße 19 / Nürnberg, 90441</td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>help@dondead.com /+49 030 61285221</td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><b>dondead.com</b></td>
+            </tr>
+        </table>`,
+        },
       },
-      viewPath: path.resolve("./controllers/views/"),
     };
 
-    transporter.use("compile", hbs(handlebarOptions));
-
-    var mailOptions = {
-      from: "sales@dondead.com",
-      to: user.email,
-      subject: "Offer created",
-      template: "invoice",
-      context: {
+    var document = {
+      html: html,
+      data: {
         date: new Date(offers.timestamp).getDate(),
         total: offers.amount,
         email: user.email,
@@ -90,6 +148,30 @@ export const newOffer = async (req, res) => {
         fee: offers.shippingFee,
         subTotal: offers.amount - offers.shippingFee,
       },
+      path: `../server/public/pdfReports/invoice.pdf`,
+    };
+
+    pdf
+      .create(document, options)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    //generation ends
+
+    var mailOptions = {
+      from: "sales@dondead.com",
+      to: user.email,
+      subject: "Offer created",
+      attachments: [
+        {
+          filename: "invoice.pdf",
+          path: path.join(__dirname, "../public/pdfReports/invoice.pdf"),
+        },
+      ],
     };
 
     res.status(200).json(offers);

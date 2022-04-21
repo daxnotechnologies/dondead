@@ -19,7 +19,7 @@ const login = (loginForm, history) => {
         data: { token },
       } = await api.login(loginForm);
 
-      Cookies.set("token", token);
+      Cookies.set("ftoken", token);
       dispatch(loginSuccess(token));
       history.push("/account");
     } catch (err) {
@@ -33,7 +33,7 @@ const logOut = (history) => {
   return async (dispatch) => {
     try {
       dispatch(logoutBegin());
-      Cookies.remove("token");
+      Cookies.remove("ftoken");
       history.push("/");
       dispatch(logoutSuccess(null));
     } catch (err) {

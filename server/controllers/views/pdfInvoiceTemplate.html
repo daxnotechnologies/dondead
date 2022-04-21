@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+
+
+    </head>
+
+    <body style="padding: 30px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="65%" style="font-size:30px"><b>Lieferschein</b></td>
+                <td width="30%"> <a href="https://dondead.com" target="_blank">
+                        <img width="300" height="" class="logo" alt="Logo"
+                            src="https://cdn.filestackcontent.com/api/file/61TLCq4lSg2KVOEj4enE" />
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+        <!-- <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="8%"><b>Verkaufsdatum</b></td>
+                <td> 03.01.2022</td>
+            </tr>
+        </table> -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="10%"><b>Auszahlung</b></td>
+                <td> 7.5 % mehr auszahlung in bar (abgabe in berlin)</td>
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="10%"><b>Versand</b></td>
+                <td> Abgabe im Dondead Store Berlin</td>
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="10%"><b>Menge </b></td>
+                <td>{{total}}</td>
+
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="10%"><b>Email</b></td>
+                <td>{{email}}</td>
+            </tr>
+        </table>
+
+        <!-- <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="8%"><b>Verkaufe</b></td>
+                <td>1</td>
+            </tr>
+        </table> -->
+
+        <table style="padding: 30px 0" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="10%"><b>Absender</b></td>
+                <td>
+                    <div>
+
+                        {{name}}
+                    </div>
+
+                    <div>
+
+                        {{street}}
+                    </div>
+                    <div>
+
+                        {{zip}} {{city}}
+                    </div>
+                </td>
+
+
+            </tr>
+        </table>
+
+        <table style="border-top: 1.5px solid; border-bottom: 1.5px solid; padding: 5px 0px; margin-top: 45px"
+            width="100%" cellspacing="0" cellpadding="0">
+
+            <tr>
+                <td width="35%"><b>Artikelbeschreibung</b></td>
+                <td width="17%"> <b>Stckz. </b></td>
+                <td width="17%"><b> Preis</b></td>
+                <td width="17%"><b> Gesamtbetrag</b></td>
+            </tr>
+
+        </table>
+        {{#each items}}
+        <table style="border-bottom: 1px solid gray; padding: 20px 0px" width="100%" border="0" cellspacing="0"
+            cellpadding="0" colspan="2">
+            <tr>
+                <td width="15%"><img src={{this.image}} alt="Gir" width="100" height="70" />
+
+                </td>
+                <td width="20%"> {{this.title}}</td>
+                <td width="17%"> ×{{this.quantity}}</td>
+                <td width="17%"> €{{this.productPrice}}</td>
+                <td width="17%"> €{{this.productPrice}}</td>
+            </tr>
+        </table>
+        {{/each}}
+        <table style="margin: 5px 0 0 80%;border-bottom: 1px solid gray;  padding:10px 0" border="0" cellspacing="0"
+            cellpadding="0">
+            <tr>
+                <td width="3%"><b>Zwischensumme </b> </td>
+                <td width="1%">€{{subTotal}}</td>
+            </tr>
+        </table>
+        <table style="margin:0 0 0 80%; padding:10px 0" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="3%"><b>Versand </b> </td>
+                <td width="1%">€{{fee}}</td>
+            </tr>
+        </table>
+
+        <table style="margin: 5px 0 0 80%; border-top: 1px solid; border-bottom: 1px solid;padding:10px 0" border="0"
+            cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="3%"><b>Gesamtbetrag </b> </td>
+                <td width="1%">€{{total}}</td>
+
+            </tr>
+        </table>
+        <!-- <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><b>Vielen Dank für Ihren Verkauf!</b></td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>Bitten lassen Sie es uns wissen, falls Sie irgendwelche Fragen haben.</td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><b>Dondead GmbH</b></td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>Industriestraße 19 / Nürnberg, 90441</td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>help@dondead.com /+49 030 61285221</td>
+            </tr>
+        </table>
+        <table style="text-align:center" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><b>dondead.com</b></td>
+            </tr>
+        </table> -->
+    </body>
+
+</html>

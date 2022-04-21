@@ -237,7 +237,7 @@ const MyAccount = () => {
 
   const dispatch = useDispatch();
 
-  if (!Cookies.get("token")) {
+  if (!Cookies.get("ftoken")) {
     router.push("account/login");
   } else {
     dispatch(getProfile());

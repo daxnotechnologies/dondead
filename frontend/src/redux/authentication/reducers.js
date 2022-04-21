@@ -11,7 +11,7 @@ const {
 } = actions;
 
 const initState = {
-  login: Cookies.get("token"),
+  login: Cookies.get("ftoken"),
   loading: false,
   error: null,
 };
