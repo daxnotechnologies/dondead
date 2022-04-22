@@ -74,7 +74,6 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "set \"GENERATE_SOURCEMAP=false\" && react-app-rewired --max-old-space-size=4096 build",
-    "gcp-build": "set \"GENERATE_SOURCEMAP=false\" && react-app-rewired --max-old-space-size=4096 build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint '**/*.js'",
